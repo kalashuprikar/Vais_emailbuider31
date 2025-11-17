@@ -24,7 +24,9 @@
     "chart.js": "^4.5.0",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "pdfjs-dist": "^5.4.394",
     "react-chartjs-2": "^5.3.0",
+    "react-pdf": "^10.2.0",
     "rsuite": "^5.83.3",
     "zod": "^3.25.76"
   },
