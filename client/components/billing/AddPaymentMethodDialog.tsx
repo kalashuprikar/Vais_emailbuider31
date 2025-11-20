@@ -109,38 +109,38 @@ function CardPreview({
 
   return (
     <div
-      className={`relative h-48 rounded-2xl bg-gradient-to-br ${getCardBgGradient(cardNetwork)} shadow-2xl overflow-hidden flex flex-col justify-between p-6 text-white transform transition-all duration-300 hover:scale-105`}
+      className={`relative h-48 rounded-2xl bg-gradient-to-br ${getCardBgGradient(cardNetwork)} shadow-2xl overflow-hidden flex flex-col justify-between p-6 text-white transform transition-all duration-300 hover:scale-105 group`}
     >
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-4 right-4 text-4xl font-bold opacity-20">
-          💳
-        </div>
+      <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity">
+        <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white opacity-5 group-hover:opacity-10 transition-opacity"></div>
+        <div className="absolute -bottom-8 -left-8 w-40 h-40 rounded-full bg-white opacity-5 group-hover:opacity-10 transition-opacity"></div>
       </div>
 
       <div className="relative z-10 flex items-center justify-between">
-        <div className="text-sm font-semibold opacity-80">{cardNetwork || "CARD"}</div>
+        <div className="text-sm font-bold opacity-90 tracking-widest">{cardNetwork || "CARD"}</div>
         <svg
-          className="w-10 h-10 opacity-70"
+          className="w-10 h-10 opacity-80"
           viewBox="0 0 24 24"
           fill="currentColor"
         >
           <rect x="2" y="6" width="20" height="12" rx="2" />
+          <line x1="2" y1="12" x2="22" y2="12" strokeWidth="1" stroke="currentColor" opacity="0.3" />
         </svg>
       </div>
 
-      <div className="relative z-10 space-y-3">
-        <div className="tracking-widest font-mono text-lg font-bold">
+      <div className="relative z-10 space-y-4">
+        <div className="font-mono text-xl font-bold tracking-wider">
           {displayNumber}
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pt-2 border-t border-white border-opacity-20">
           <div className="space-y-1">
-            <div className="text-xs font-semibold opacity-70">CARD HOLDER</div>
-            <div className="font-semibold text-sm uppercase">
+            <div className="text-xs font-semibold opacity-70 uppercase tracking-wide">Card Holder</div>
+            <div className="font-semibold text-sm uppercase truncate">
               {cardholderName || "YOUR NAME"}
             </div>
           </div>
           <div className="space-y-1 text-right">
-            <div className="text-xs font-semibold opacity-70">EXPIRES</div>
+            <div className="text-xs font-semibold opacity-70 uppercase tracking-wide">Expires</div>
             <div className="font-mono font-bold text-sm">
               {expiryDate || "MM/YY"}
             </div>
