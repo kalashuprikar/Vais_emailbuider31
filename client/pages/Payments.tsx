@@ -294,9 +294,9 @@ function ModernPaymentCard({
     <>
       <div className="group relative">
         <div
-          className={`relative rounded-2xl overflow-hidden h-52 bg-gradient-to-br ${getCardGradient(method.cardNetwork)} text-white shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105`}
+          className={`relative rounded-2xl overflow-visible h-52 bg-gradient-to-br ${getCardGradient(method.cardNetwork)} text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105`}
         >
-          <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 opacity-20 rounded-2xl">
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 blur-2xl"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -ml-16 -mb-16 blur-2xl"></div>
           </div>
@@ -311,14 +311,32 @@ function ModernPaymentCard({
                   {getCardNetwork(method)}
                 </div>
               </div>
-              {method.isDefault && (
-                <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                  <span className="flex items-center gap-1.5 text-xs font-bold">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    DEFAULT
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                {method.isDefault && (
+                  <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
+                    <span className="flex items-center gap-1.5 text-xs font-bold">
+                      <CheckCircle className="w-3.5 h-3.5" />
+                      DEFAULT
+                    </span>
+                  </div>
+                )}
+                {!method.isDefault && (
+                  <button
+                    onClick={() => onSetDefault(method.id)}
+                    className="p-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-white/30 transition-all duration-200"
+                    title="Set as default"
+                  >
+                    <CheckCircle className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  onClick={() => setDeleteOpen(true)}
+                  className="p-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white hover:bg-red-500/40 transition-all duration-200"
+                  title="Delete card"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <div className="space-y-4">
@@ -356,7 +374,7 @@ function ModernPaymentCard({
         </div>
       </div>
 
-      <div className="mt-4 space-y-3">
+      <div className="mt-4">
         <div className="flex items-center justify-between">
           <div className="text-sm font-medium text-gray-700">
             {method.status === "active" && (
@@ -384,27 +402,6 @@ function ModernPaymentCard({
           <div className="text-xs text-gray-500 font-medium">
             Used {method.lastUsed}
           </div>
-        </div>
-
-        <div className="flex gap-2 pt-1">
-          {!method.isDefault && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 h-9 border-valasys-orange text-valasys-orange hover:bg-orange-50"
-              onClick={() => onSetDefault(method.id)}
-            >
-              Set Default
-            </Button>
-          )}
-          <Button
-            variant="outline"
-            size="sm"
-            className={`h-9 border-red-200 text-red-600 hover:bg-red-50 ${method.isDefault ? "w-full" : ""}`}
-            onClick={() => setDeleteOpen(true)}
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
         </div>
       </div>
 
