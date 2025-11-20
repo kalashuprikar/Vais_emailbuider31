@@ -315,15 +315,15 @@ function ModernPaymentCard({
                 {method.isDefault && (
                   <>
                     <div className="bg-green-400/30 backdrop-blur-md px-3 py-1.5 rounded-full border border-green-300/50">
-                      <span className="flex items-center gap-1.5 text-xs font-bold text-white">
+                      <span className="flex items-center gap-1.5 text-white font-semibold" style={{ fontSize: "12px" }}>
                         <span className="inline-flex h-2 w-2 rounded-full bg-green-300 animate-pulse"></span>
-                        AUTOPAY ENABLED
+                        Autopay enabled
                       </span>
                     </div>
                     <div className="bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                      <span className="flex items-center gap-1.5 text-xs font-bold">
+                      <span className="flex items-center gap-1.5 text-white font-semibold" style={{ fontSize: "12px" }}>
                         <CheckCircle className="w-3.5 h-3.5" />
-                        DEFAULT
+                        Default
                       </span>
                     </div>
                   </>
