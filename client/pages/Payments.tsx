@@ -337,6 +337,258 @@ function getCardBorderGradient(cardNetwork?: string) {
   }
 }
 
+function AddPaymentMethodDialog({
+  open,
+  onOpenChange,
+  onAdd,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onAdd: (method: PaymentMethod) => void;
+}) {
+  const [formData, setFormData] = useState<AddPaymentFormData>({
+    cardholderName: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
+    country: "United States",
+    paypalEmail: "",
+  });
+
+  const handleAddCard = () => {
+    if (
+      !formData.cardholderName ||
+      !formData.cardNumber ||
+      !formData.expiryDate ||
+      !formData.cvc
+    ) {
+      alert("Please fill in all card details");
+      return;
+    }
+
+    const newMethod: PaymentMethod = {
+      id: `pm_${Date.now()}`,
+      type: "credit_card",
+      cardNetwork: "Visa",
+      cardNumber: formData.cardNumber.slice(-4),
+      expiryDate: formData.expiryDate,
+      cardholderName: formData.cardholderName,
+      isDefault: false,
+      lastUsed: new Date().toISOString().split("T")[0],
+      status: "active",
+      autopayEnabled: true,
+    };
+
+    onAdd(newMethod);
+    setFormData({
+      cardholderName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: "",
+      country: "United States",
+      paypalEmail: "",
+    });
+    onOpenChange(false);
+  };
+
+  const handleAddPayPal = () => {
+    if (!formData.paypalEmail) {
+      alert("Please enter your PayPal email");
+      return;
+    }
+
+    const newMethod: PaymentMethod = {
+      id: `pm_${Date.now()}`,
+      type: "paypal",
+      cardNumber: formData.paypalEmail,
+      expiryDate: "",
+      cardholderName: "PayPal Account",
+      isDefault: false,
+      lastUsed: new Date().toISOString().split("T")[0],
+      status: "active",
+      autopayEnabled: true,
+    };
+
+    onAdd(newMethod);
+    setFormData({
+      cardholderName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: "",
+      country: "United States",
+      paypalEmail: "",
+    });
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Add Payment Method</DialogTitle>
+        </DialogHeader>
+
+        <Accordion type="single" collapsible defaultValue="stripe">
+          <AccordionItem value="stripe">
+            <AccordionTrigger className="text-lg font-semibold">
+              <div className="flex items-center gap-3">
+                <CreditCard className="w-5 h-5" />
+                <span>Card</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4 pt-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Card Information
+                  </label>
+                  <Input
+                    placeholder="1234 1234 1234 1234"
+                    value={formData.cardNumber}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cardNumber: e.target.value.replace(/\s/g, ""),
+                      })
+                    }
+                    className="h-10"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      MM/YY
+                    </label>
+                    <Input
+                      placeholder="MM/YY"
+                      value={formData.expiryDate}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          expiryDate: e.target.value,
+                        })
+                      }
+                      className="h-10"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      CVC
+                    </label>
+                    <Input
+                      placeholder="CVC"
+                      value={formData.cvc}
+                      onChange={(e) =>
+                        setFormData({ ...formData, cvc: e.target.value })
+                      }
+                      className="h-10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Cardholder name
+                  </label>
+                  <Input
+                    placeholder="Full name on card"
+                    value={formData.cardholderName}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cardholderName: e.target.value,
+                      })
+                    }
+                    className="h-10"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Country or region
+                  </label>
+                  <Select
+                    value={formData.country}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, country: value })
+                    }
+                  >
+                    <SelectTrigger className="h-10">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COUNTRIES.map((country) => (
+                        <SelectItem key={country} value={country}>
+                          {country}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <DialogFooter className="pt-4">
+                  <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleAddCard}
+                    className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                  >
+                    Add Card
+                  </Button>
+                </DialogFooter>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="paypal">
+            <AccordionTrigger className="text-lg font-semibold">
+              <div className="flex items-center gap-3">
+                <Landmark className="w-5 h-5" />
+                <span>PayPal</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4 pt-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    PayPal Email
+                  </label>
+                  <Input
+                    placeholder="your-email@example.com"
+                    type="email"
+                    value={formData.paypalEmail}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        paypalEmail: e.target.value,
+                      })
+                    }
+                    className="h-10"
+                  />
+                </div>
+
+                <DialogFooter className="pt-4">
+                  <Button variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleAddPayPal}
+                    className="bg-gradient-to-r from-valasys-orange to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                  >
+                    Add PayPal
+                  </Button>
+                </DialogFooter>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function ModernPaymentCard({
   method,
   onDelete,
