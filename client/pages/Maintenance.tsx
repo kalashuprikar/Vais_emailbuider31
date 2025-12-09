@@ -128,7 +128,7 @@ export default function Maintenance() {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-valasys-orange to-valasys-blue text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-valasys-orange/25 transition-all duration-300 whitespace-nowrap"
+              className="px-6 py-3 bg-gradient-to-r from-valasys-orange via-valasys-blue to-valasys-green text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-valasys-orange/40 transition-all duration-300 whitespace-nowrap"
             >
               Notify Me
             </button>
