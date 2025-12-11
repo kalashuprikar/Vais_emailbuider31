@@ -147,13 +147,12 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                     }}
                     src={item.gif}
                     alt={item.label}
-                    className="w-16 h-16 rounded-full object-cover"
-                    onLoad={(e) => {
-                      const img = e.currentTarget as HTMLImageElement;
-                      if (rating !== item.value && hoveredRating !== item.value) {
-                        img.style.opacity = "0.7";
-                      }
-                    }}
+                    className={cn(
+                      "w-16 h-16 rounded-full object-cover transition-all duration-200",
+                      rating === item.value || hoveredRating === item.value
+                        ? "opacity-100 drop-shadow-lg"
+                        : "opacity-60 hover:opacity-80"
+                    )}
                   />
                   {(rating === item.value || hoveredRating === item.value) && (
                     <div className="absolute inset-0 rounded-full ring-2 ring-valasys-orange pointer-events-none" />
