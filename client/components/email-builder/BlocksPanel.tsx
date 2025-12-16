@@ -212,9 +212,9 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
 
         <TabsContent
           value="blocks"
-          className="flex-1 flex flex-col overflow-hidden m-0 h-full"
+          className="flex-1 flex flex-col overflow-auto m-0"
         >
-          <div className="p-4 border-b border-gray-200">
+          <div className="p-4 border-b border-gray-200 sticky top-0 bg-white z-10">
             <Input
               placeholder="Search blocks..."
               value={searchQuery}
@@ -223,8 +223,8 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
             />
           </div>
 
-          <div className="flex-1 p-4 overflow-hidden h-full">
-            <div className="grid grid-cols-3 gap-3 h-full">
+          <div className="p-4">
+            <div className="grid grid-cols-3 gap-3">
               {filteredBlocks.map((block) => (
                 <DraggableBlockButton key={block.id} block={block} />
               ))}
