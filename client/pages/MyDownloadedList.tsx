@@ -712,130 +712,168 @@ export default function MyDownloadedList() {
                                   data-tour="send-to-crm-button"
                                   variant="outline"
                                   size="sm"
-                                  className="h-8 px-2 text-blue-700 border-blue-300 hover:bg-blue-600 hover:text-white"
+                                  className="h-8 px-2 text-blue-700 border-blue-300 hover:bg-blue-50 hover:text-blue-800 transition-colors"
                                   title="Send to CRM"
                                 >
                                   <UploadCloud className="h-3 w-3 mr-1" />
                                   Send to CRM
                                 </Button>
                               </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="w-72">
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#00A1E0] text-white text-[10px] font-bold">
-                                      SF
-                                    </span>
-                                    <span className="ml-2">Salesforce</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {salesforceAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("salesforce");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setSalesforceAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#00A1E0] text-white hover:bg-[#008fcc] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setSfAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuSub>
-                                  <DropdownMenuSubTrigger>
-                                    <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#FF7A59] text-white text-[10px] font-bold">
-                                      HS
-                                    </span>
-                                    <span className="ml-2">HubSpot</span>
-                                  </DropdownMenuSubTrigger>
-                                  <DropdownMenuSubContent className="w-80 p-2">
-                                    {hubspotAccounts.map((acc) => (
-                                      <DropdownMenuItem
-                                        key={acc.id}
-                                        onSelect={() => {
-                                          setCrmFile(file);
-                                          setSelectedCrm("hubspot");
-                                          setCrmDialogOpen(true);
-                                        }}
-                                        className="p-0"
-                                      >
-                                        <div className="flex items-center justify-between w-full rounded-md border border-valasys-gray-200 px-3 py-2 hover:bg-accent">
-                                          <span>{acc.name}</span>
-                                          <button
-                                            aria-label="Delete account"
-                                            className="text-red-600 hover:text-red-700 p-1 rounded hover:bg-red-50"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              e.stopPropagation();
-                                              setHubspotAccounts((prev) =>
-                                                prev.filter(
-                                                  (a) => a.id !== acc.id,
-                                                ),
-                                              );
-                                            }}
-                                            title="Delete account"
-                                          >
-                                            <Trash2 className="h-4 w-4" />
-                                          </button>
-                                        </div>
-                                      </DropdownMenuItem>
-                                    ))}
-                                    <DropdownMenuSeparator className="my-2" />
-                                    <DropdownMenuItem
-                                      className="w-full px-3 py-2 rounded-md bg-[#FF7A59] text-white hover:bg-[#e7674f] flex items-center"
-                                      onSelect={(e) => {
-                                        e.preventDefault();
-                                        setHsAddOpen(true);
-                                      }}
-                                    >
-                                      <Plus className="h-4 w-4 mr-2" />
-                                      Add Account
-                                    </DropdownMenuItem>
-                                  </DropdownMenuSubContent>
-                                </DropdownMenuSub>
-                                <DropdownMenuItem
-                                  onSelect={() => {
-                                    setCrmFile(file);
-                                    setSelectedCrm("marketo");
-                                    setCrmDialogOpen(true);
-                                  }}
-                                >
-                                  <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-[#5C4BAF] text-white text-[10px] font-bold mr-2">
-                                    MK
-                                  </span>
-                                  Marketo
-                                </DropdownMenuItem>
+                              <DropdownMenuContent align="end" className="w-80 p-0">
+                                {/* Salesforce Section */}
+                                <div className="px-2 pt-2">
+                                  <div className="px-2 py-2 rounded-lg bg-blue-50 border border-blue-200 mb-2">
+                                    <div className="flex items-center gap-2">
+                                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#00A1E0] text-white text-xs font-bold">
+                                        SF
+                                      </span>
+                                      <span className="text-sm font-semibold text-blue-900">Salesforce</span>
+                                    </div>
+                                  </div>
+                                  <div className="space-y-1 mb-2">
+                                    {salesforceAccounts.length === 0 ? (
+                                      <div className="px-2 py-2 text-xs text-gray-500 italic">
+                                        No accounts connected
+                                      </div>
+                                    ) : (
+                                      salesforceAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("salesforce");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 rounded-md overflow-hidden focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-blue-200 bg-white px-3 py-2.5 hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                                            <div className="flex items-center gap-2 flex-1 cursor-pointer">
+                                              <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                                              <span className="text-sm font-medium text-gray-900">{acc.name}</span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setSalesforceAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-3.5 w-3.5" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))
+                                    )}
+                                  </div>
+                                  <DropdownMenuItem
+                                    className="rounded-md overflow-hidden focus:bg-transparent p-0"
+                                    onSelect={(e) => {
+                                      e.preventDefault();
+                                      setSfAddOpen(true);
+                                    }}
+                                  >
+                                    <div className="w-full px-3 py-2 rounded-md bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 hover:from-blue-100 hover:to-blue-200 border border-blue-300 hover:border-blue-400 flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+                                      <Plus className="h-3.5 w-3.5" />
+                                      <span className="text-sm font-medium">Add Salesforce Account</span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                </div>
+
+                                <DropdownMenuSeparator className="my-2" />
+
+                                {/* HubSpot Section */}
+                                <div className="px-2">
+                                  <div className="px-2 py-2 rounded-lg bg-orange-50 border border-orange-200 mb-2">
+                                    <div className="flex items-center gap-2">
+                                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#FF7A59] text-white text-xs font-bold">
+                                        HS
+                                      </span>
+                                      <span className="text-sm font-semibold text-orange-900">HubSpot</span>
+                                    </div>
+                                  </div>
+                                  <div className="space-y-1 mb-2">
+                                    {hubspotAccounts.length === 0 ? (
+                                      <div className="px-2 py-2 text-xs text-gray-500 italic">
+                                        No accounts connected
+                                      </div>
+                                    ) : (
+                                      hubspotAccounts.map((acc) => (
+                                        <DropdownMenuItem
+                                          key={acc.id}
+                                          onSelect={() => {
+                                            setCrmFile(file);
+                                            setSelectedCrm("hubspot");
+                                            setCrmDialogOpen(true);
+                                          }}
+                                          className="p-0 rounded-md overflow-hidden focus:bg-transparent"
+                                        >
+                                          <div className="flex items-center justify-between w-full rounded-md border border-orange-200 bg-white px-3 py-2.5 hover:bg-orange-50 hover:border-orange-300 transition-colors">
+                                            <div className="flex items-center gap-2 flex-1 cursor-pointer">
+                                              <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
+                                              <span className="text-sm font-medium text-gray-900">{acc.name}</span>
+                                            </div>
+                                            <button
+                                              aria-label="Delete account"
+                                              className="text-gray-400 hover:text-red-600 p-1 rounded hover:bg-red-50 transition-colors"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setHubspotAccounts((prev) =>
+                                                  prev.filter(
+                                                    (a) => a.id !== acc.id,
+                                                  ),
+                                                );
+                                              }}
+                                              title="Delete account"
+                                            >
+                                              <Trash2 className="h-3.5 w-3.5" />
+                                            </button>
+                                          </div>
+                                        </DropdownMenuItem>
+                                      ))
+                                    )}
+                                  </div>
+                                  <DropdownMenuItem
+                                    className="rounded-md overflow-hidden focus:bg-transparent p-0"
+                                    onSelect={(e) => {
+                                      e.preventDefault();
+                                      setHsAddOpen(true);
+                                    }}
+                                  >
+                                    <div className="w-full px-3 py-2 rounded-md bg-gradient-to-r from-orange-50 to-orange-100 text-orange-700 hover:from-orange-100 hover:to-orange-200 border border-orange-300 hover:border-orange-400 flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+                                      <Plus className="h-3.5 w-3.5" />
+                                      <span className="text-sm font-medium">Add HubSpot Account</span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                </div>
+
+                                <DropdownMenuSeparator className="my-2" />
+
+                                {/* Marketo Option */}
+                                <div className="px-2 pb-2">
+                                  <DropdownMenuItem
+                                    onSelect={() => {
+                                      setCrmFile(file);
+                                      setSelectedCrm("marketo");
+                                      setCrmDialogOpen(true);
+                                    }}
+                                    className="rounded-md overflow-hidden focus:bg-transparent p-0"
+                                  >
+                                    <div className="w-full rounded-md border border-purple-200 bg-white px-3 py-2.5 hover:bg-purple-50 hover:border-purple-300 flex items-center gap-2 transition-colors cursor-pointer">
+                                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#5C4BAF] text-white text-xs font-bold">
+                                        MK
+                                      </span>
+                                      <span className="text-sm font-medium text-gray-900">Marketo</span>
+                                    </div>
+                                  </DropdownMenuItem>
+                                </div>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
