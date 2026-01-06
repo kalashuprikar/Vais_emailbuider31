@@ -125,11 +125,13 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       type="number"
                       min="0"
                       max="100"
-                      value={block.width}
+                      value={
+                        isNaN(block.width as any) ? 100 : (block.width ?? 100)
+                      }
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          width: parseInt(e.target.value),
+                          width: parseInt(e.target.value) || 100,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -460,11 +462,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       id="titleRadius"
                       type="number"
                       min="0"
-                      value={block.borderRadius}
+                      value={block.borderRadius || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderRadius: parseInt(e.target.value),
+                          borderRadius: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -503,11 +505,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
-                      value={block.borderWidth}
+                      value={block.borderWidth || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderWidth: parseInt(e.target.value),
+                          borderWidth: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -522,7 +524,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <Input
                     type="color"
-                    value={block.borderColor}
+                    value={block.borderColor || "#000000"}
                     onChange={(e) =>
                       onBlockUpdate({ ...block, borderColor: e.target.value })
                     }
@@ -548,11 +550,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     type="number"
                     min="12"
                     max="72"
-                    value={block.fontSize}
+                    value={block.fontSize || 32}
                     onChange={(e) =>
                       onBlockUpdate({
                         ...block,
-                        fontSize: parseInt(e.target.value),
+                        fontSize: parseInt(e.target.value) || 32,
                       })
                     }
                     className="focus:ring-valasys-orange focus:ring-2"
@@ -675,17 +677,17 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       type="number"
                       min="0"
                       max="100"
-                      value={block.width}
+                      value={block.width ?? 100}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          width: parseInt(e.target.value),
+                          width: parseInt(e.target.value) || 100,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
                     />
                     <select
-                      value={block.widthUnit}
+                      value={block.widthUnit ?? "%"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
@@ -1003,11 +1005,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
-                      value={block.borderRadius}
+                      value={block.borderRadius || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderRadius: parseInt(e.target.value),
+                          borderRadius: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -1046,11 +1048,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
-                      value={block.borderWidth}
+                      value={block.borderWidth || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderWidth: parseInt(e.target.value),
+                          borderWidth: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -1065,7 +1067,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <Input
                     type="color"
-                    value={block.borderColor}
+                    value={block.borderColor || "#000000"}
                     onChange={(e) =>
                       onBlockUpdate({ ...block, borderColor: e.target.value })
                     }
@@ -1091,7 +1093,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     onChange={(e) =>
                       onBlockUpdate({
                         ...block,
-                        fontSize: parseInt(e.target.value),
+                        fontSize: parseInt(e.target.value) || 16,
                       })
                     }
                     className="focus:ring-valasys-orange focus:ring-2"
@@ -1326,17 +1328,17 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <div className="flex gap-2">
                     <Input
                       type="number"
-                      value={block.width}
+                      value={block.width ?? 100}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          width: parseInt(e.target.value),
+                          width: parseInt(e.target.value) || 100,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
                     />
                     <select
-                      value={block.widthUnit || "%"}
+                      value={block.widthUnit ?? "%"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
@@ -1358,17 +1360,17 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <div className="flex gap-2">
                     <Input
                       type="number"
-                      value={block.height}
+                      value={block.height ?? 200}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          height: parseInt(e.target.value),
+                          height: parseInt(e.target.value) || 200,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
                     />
                     <select
-                      value={block.heightUnit || "px"}
+                      value={block.heightUnit ?? "px"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
@@ -1447,7 +1449,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderRadius: parseInt(e.target.value),
+                          borderRadius: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -1691,7 +1693,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderWidth: parseInt(e.target.value),
+                          borderWidth: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -2202,11 +2204,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       id="btnRadius"
                       type="number"
                       min="0"
-                      value={block.borderRadius}
+                      value={block.borderRadius || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderRadius: parseInt(e.target.value),
+                          borderRadius: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -2232,11 +2234,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       id="btnBorderSize"
                       type="number"
                       min="0"
-                      value={block.borderWidth}
+                      value={block.borderWidth || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderWidth: parseInt(e.target.value),
+                          borderWidth: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -2254,7 +2256,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <Input
                     id="btnBorderColor"
                     type="color"
-                    value={block.borderColor}
+                    value={block.borderColor || "#000000"}
                     onChange={(e) =>
                       onBlockUpdate({ ...block, borderColor: e.target.value })
                     }
@@ -2665,7 +2667,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             ...block,
                             enterpriseName: {
                               ...block.enterpriseName,
-                              fontSize: parseInt(e.target.value),
+                              fontSize: parseInt(e.target.value) || 16,
                             },
                           })
                         }
@@ -2793,7 +2795,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             ...block,
                             address: {
                               ...block.address,
-                              fontSize: parseInt(e.target.value),
+                              fontSize: parseInt(e.target.value) || 16,
                             },
                           })
                         }
@@ -2924,7 +2926,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             ...block,
                             subscriptionText: {
                               ...block.subscriptionText,
-                              fontSize: parseInt(e.target.value),
+                              fontSize: parseInt(e.target.value) || 16,
                             },
                           })
                         }
@@ -3095,7 +3097,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             ...block,
                             unsubscribeLink: {
                               ...block.unsubscribeLink,
-                              fontSize: parseInt(e.target.value),
+                              fontSize: parseInt(e.target.value) || 16,
                             },
                           })
                         }
@@ -3907,11 +3909,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
-                      value={block.borderRadius}
+                      value={block.borderRadius || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderRadius: parseInt(e.target.value),
+                          borderRadius: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -3935,11 +3937,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
-                      value={block.borderWidth}
+                      value={block.borderWidth || 0}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
-                          borderWidth: parseInt(e.target.value),
+                          borderWidth: parseInt(e.target.value) || 0,
                         })
                       }
                       className="flex-1 focus:ring-valasys-orange focus:ring-2"
@@ -3954,7 +3956,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <Input
                     type="color"
-                    value={block.borderColor}
+                    value={block.borderColor || "#000000"}
                     onChange={(e) =>
                       onBlockUpdate({ ...block, borderColor: e.target.value })
                     }

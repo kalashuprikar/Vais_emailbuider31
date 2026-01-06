@@ -82,14 +82,14 @@ const DraggableBlockButton: React.FC<DraggableBlockProps> = ({ block }) => {
   return (
     <button
       ref={drag}
-      className={`flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 hover:border-valasys-orange hover:bg-orange-50 transition-all hover:shadow-md cursor-move ${
+      className={`flex flex-col items-center justify-center p-6 rounded-lg border border-gray-200 hover:border-valasys-orange hover:bg-orange-50 transition-all hover:shadow-md cursor-move ${
         isDragging ? "opacity-50 scale-95" : ""
       }`}
     >
-      <div className="mb-2 relative">
+      <div className="mb-4 relative pt-3">
         {block.icon}
-        <div className="absolute -top-1 -right-1 text-valasys-orange">
-          <GripHorizontal className="w-3 h-3" />
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-valasys-orange">
+          <GripHorizontal className="w-4 h-4" />
         </div>
       </div>
       <span className="text-sm font-medium text-gray-900">{block.label}</span>
@@ -170,7 +170,14 @@ const DraggableTemplateCard: React.FC<DraggableTemplateProps> = ({
 };
 
 const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set([
+      "Text & images",
+      "Content sections",
+      "Headers",
+      "Footer & signatures",
+    ]),
+  );
 
   const textImageTemplates: Template[] = [
     {
@@ -314,7 +321,13 @@ const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
   ];
 
   const toggleSection = (title: string) => {
-    setExpandedSection(expandedSection === title ? null : title);
+    const newExpanded = new Set(expandedSections);
+    if (newExpanded.has(title)) {
+      newExpanded.delete(title);
+    } else {
+      newExpanded.add(title);
+    }
+    setExpandedSections(newExpanded);
   };
 
   const handleAddBlocks = (blocks: ContentBlock[]) => {
@@ -338,12 +351,12 @@ const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
               </span>
               <ChevronDown
                 className={`w-5 h-5 text-gray-600 transition-transform ${
-                  expandedSection === section.title ? "rotate-180" : ""
+                  expandedSections.has(section.title) ? "rotate-180" : ""
                 }`}
               />
             </button>
 
-            {expandedSection === section.title && (
+            {expandedSections.has(section.title) && (
               <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
                 {section.templates ? (
                   <div className="flex flex-col gap-3">
@@ -356,7 +369,7 @@ const SectionsPanel: React.FC<SectionsPanelProps> = ({ onAddBlock }) => {
                     ))}
                   </div>
                 ) : (
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {section.blocks?.map((block) => (
                       <DraggableBlockButton key={block.id} block={block} />
                     ))}
@@ -513,7 +526,7 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({ onAddBlock }) => {
           </div>
 
           <div className="p-4">
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {filteredBlocks.map((block) => (
                 <DraggableBlockButton key={block.id} block={block} />
               ))}
