@@ -141,6 +141,10 @@ export const LandingPageBuilder: React.FC<LandingPageBuilderProps> = ({
       "template-7": createFeaturesBlock,
       "template-8": createHeaderBlock,
       "template-9": createTestimonialsBlock,
+      "template-pricing": createPricingBlock,
+      "template-faq": createFaqBlock,
+      "template-signup": createSignupBlock,
+      "template-footer": createPricingFooterBlock,
     };
 
     const blockCreator = templateBlockMap[templateId];
