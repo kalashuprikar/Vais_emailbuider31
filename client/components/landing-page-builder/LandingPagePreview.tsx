@@ -74,6 +74,18 @@ export const LandingPagePreview: React.FC<LandingPagePreviewProps> = ({
       case "section-spacer":
         blockContent = <SpacerBlockPreview {...blockProps} />;
         break;
+      case "pricing":
+        blockContent = <PricingBlockPreview {...blockProps} />;
+        break;
+      case "faq":
+        blockContent = <FaqBlockPreview {...blockProps} />;
+        break;
+      case "signup":
+        blockContent = <SignupBlockPreview {...blockProps} />;
+        break;
+      case "pricing-footer":
+        blockContent = <PricingFooterBlockPreview {...blockProps} />;
+        break;
       default:
         blockContent = <div>Unknown block type</div>;
     }
