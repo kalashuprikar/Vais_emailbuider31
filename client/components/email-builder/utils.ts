@@ -78,7 +78,9 @@ export function createTextBlock(content = "Click to edit text"): TextBlock {
   };
 }
 
-export function createImageBlock(src = ""): ImageBlock {
+export function createImageBlock(
+  src = "https://cdn.builder.io/o/assets%2Fa4ae9b84255d41ee86b79eb7d0d252c1%2Feea03b1548cc47089bc55e5e6444e1ec?alt=media&token=34f7628a-143a-42b0-aff9-8e380b3e52aa&apiKey=a4ae9b84255d41ee86b79eb7d0d252c1",
+): ImageBlock {
   return {
     type: "image",
     id: generateId(),
@@ -388,7 +390,7 @@ export function createCenteredImageCardBlock(): CenteredImageCardBlock {
     type: "centeredImageCard",
     id: generateId(),
     image:
-      "https://images.unsplash.com/photo-1470114716159-e389f8712fda?w=600&h=300&fit=crop",
+      "https://cdn.builder.io/o/assets%2Fa4ae9b84255d41ee86b79eb7d0d252c1%2Feea03b1548cc47089bc55e5e6444e1ec?alt=media&token=34f7628a-143a-42b0-aff9-8e380b3e52aa&apiKey=a4ae9b84255d41ee86b79eb7d0d252c1",
     imageAlt: "Card image",
     title: "Some title here",
     description:
@@ -413,7 +415,7 @@ export function createSplitImageCardBlock(
     type: "splitImageCard",
     id: generateId(),
     image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=300&h=300&fit=crop",
+      "https://cdn.builder.io/o/assets%2Fa4ae9b84255d41ee86b79eb7d0d252c1%2Feea03b1548cc47089bc55e5e6444e1ec?alt=media&token=34f7628a-143a-42b0-aff9-8e380b3e52aa&apiKey=a4ae9b84255d41ee86b79eb7d0d252c1",
     imageAlt: "Card image",
     label: "New",
     title: "Some title here",
