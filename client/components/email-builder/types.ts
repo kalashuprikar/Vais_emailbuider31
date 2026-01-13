@@ -403,6 +403,23 @@ export interface TwoColumnCardBlock {
   visibility: "all" | "desktop" | "mobile";
 }
 
+export interface StatsBlock {
+  type: "stats";
+  id: string;
+  stats: {
+    id: string;
+    value: string;
+    label: string;
+    fontSize: number;
+    labelFontSize: number;
+    textColor: string;
+    padding: number;
+  }[];
+  width: number;
+  widthUnit: "px" | "%";
+  visibility: "all" | "desktop" | "mobile";
+}
+
 export type ContentBlock =
   | TitleBlock
   | TextBlock
