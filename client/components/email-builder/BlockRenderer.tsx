@@ -19,6 +19,7 @@ import { SpacerBlockComponent } from "./blocks/SpacerBlockComponent";
 import { CenteredImageCardBlockComponent } from "./blocks/CenteredImageCardBlockComponent";
 import { SplitImageCardBlockComponent } from "./blocks/SplitImageCardBlockComponent";
 import { TwoColumnCardBlockComponent } from "./blocks/TwoColumnCardBlockComponent";
+import { StatsBlockComponent } from "./blocks/StatsBlockComponent";
 
 interface BlockRendererProps {
   block: ContentBlock;
