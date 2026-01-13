@@ -51,6 +51,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     } else if (block?.type === "stats") {
       const statsBlock = block as any;
       setSelectedStatId(statsBlock.stats?.[0]?.id || null);
+    } else if (block?.type === "features") {
+      const featuresBlock = block as any;
+      setSelectedFeatureId(featuresBlock.features?.[0]?.id || null);
     }
   }, [block?.id, block?.type]);
 
