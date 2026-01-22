@@ -370,7 +370,16 @@ export default function BuildVAISForm() {
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [newSearchName, setNewSearchName] = useState("");
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [blinkingField, setBlinkingField] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Function to trigger blinking on next field
+  const triggerFieldBlink = (fieldName: string) => {
+    setBlinkingField(fieldName);
+    setTimeout(() => {
+      setBlinkingField(null);
+    }, 1200); // Duration of 2 blinks (0.6s per blink)
+  };
 
   const filteredTopics = intentTopics.filter(
     (topic) =>
