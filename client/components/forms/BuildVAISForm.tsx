@@ -1064,7 +1064,13 @@ export default function BuildVAISForm() {
                       <Input
                         placeholder="https://www.bombora.com"
                         value={generateTopicsInput}
-                        onChange={(e) => setGenerateTopicsInput(e.target.value)}
+                        onChange={(e) => {
+                          setGenerateTopicsInput(e.target.value);
+                          // Trigger blink on search field when URL is entered
+                          if (e.target.value.trim().length > 0) {
+                            triggerFieldBlink("searchTopics");
+                          }
+                        }}
                         className="pr-10"
                       />
                       <Button
