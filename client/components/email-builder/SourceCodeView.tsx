@@ -145,14 +145,22 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
             </Tooltip>
             <Tooltip open={openDownloadTooltip} onOpenChange={setOpenDownloadTooltip}>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" onClick={handleDownloadInlineHTML}>
-                  <Download className="w-4 h-4" />
-                  {showDownloadText && (
-                    <span className="ml-2">
-                      {downloaded ? "Downloaded!" : "Download Pure HTML"}
-                    </span>
-                  )}
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-max">
+                    <DropdownMenuItem
+                      onClick={handleDownloadInlineHTML}
+                      className="py-2.5"
+                    >
+                      <Download className="w-4 h-4 mr-3" />
+                      Download Pure HTML
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </TooltipTrigger>
               <TooltipContent className="font-medium" side="top">
                 {downloaded ? "Downloaded!" : "Download"}
