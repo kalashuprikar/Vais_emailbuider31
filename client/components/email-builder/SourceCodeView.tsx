@@ -100,7 +100,13 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
     element.click();
     document.body.removeChild(element);
 
+    setDownloaded(true);
+    setOpenDownloadTooltip(true);
     toast.success("Pure HTML with inline CSS downloaded successfully");
+    setTimeout(() => {
+      setDownloaded(false);
+      setOpenDownloadTooltip(false);
+    }, 2000);
   };
 
   return (
