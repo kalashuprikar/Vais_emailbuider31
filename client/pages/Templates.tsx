@@ -199,6 +199,14 @@ export default function Templates() {
                         <Button
                           variant="outline"
                           size="sm"
+                          title="Download as HTML"
+                          onClick={() => handleDownloadTemplate(template)}
+                        >
+                          <Download className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
                           className="text-red-600 hover:text-red-700 hover:bg-red-50"
                           onClick={() => {
                             setDeleteTargetId(template.id);
