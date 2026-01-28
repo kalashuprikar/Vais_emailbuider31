@@ -6305,7 +6305,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                               e.target.value,
                             )
                           }
-                          className="w-12 h-10 rounded border border-gray-300 cursor-pointer"
+                          className="w-12 h-10 rounded border border-gray-300 cursor-pointer mr-2"
                         />
                         <Input
                           value={selectedFeature.backgroundColor}
