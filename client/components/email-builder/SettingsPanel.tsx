@@ -3710,9 +3710,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     <Input
                       type="number"
                       min="0"
+                      step="any"
                       value={block.width ?? 300}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value) || 300;
+                        const value = e.target.value ? parseInt(e.target.value) : 300;
                         onBlockUpdate({
                           ...block,
                           width: value,
