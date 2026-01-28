@@ -45,6 +45,15 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(
     null,
   );
+  const [titleWidthInput, setTitleWidthInput] = useState<string>(
+    String(block?.type === "title" ? (block.width ?? 100) : 100)
+  );
+  const [videoWidthInput, setVideoWidthInput] = useState<string>(
+    String(block?.type === "video" ? (block.width ?? 300) : 300)
+  );
+  const [videoHeightInput, setVideoHeightInput] = useState<string>(
+    String(block?.type === "video" ? (block.height ?? 200) : 200)
+  );
 
   // Initialize selectedCardId when block changes to twoColumnCard
   React.useEffect(() => {
