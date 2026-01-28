@@ -4377,14 +4377,49 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             </div>
             <div>
               <Label htmlFor="logoWidth">Width (px)</Label>
-              <Input
-                id="logoWidth"
-                type="number"
-                value={block.width}
-                onChange={(e) =>
-                  onBlockUpdate({ ...block, width: parseInt(e.target.value) })
-                }
-              />
+              <div className="flex gap-2 items-center">
+                <button
+                  onClick={() => {
+                    const newWidth = Math.max(1, (block.width ?? 100) - 1);
+                    onBlockUpdate({
+                      ...block,
+                      width: newWidth,
+                    });
+                  }}
+                  className="p-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+                  title="Decrease width"
+                >
+                  <ChevronDown size={16} />
+                </button>
+                <Input
+                  id="logoWidth"
+                  type="number"
+                  min="1"
+                  value={block.width}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val !== "") {
+                      const num = parseInt(val);
+                      if (!isNaN(num) && num > 0) {
+                        onBlockUpdate({ ...block, width: num });
+                      }
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    const newWidth = (block.width ?? 100) + 1;
+                    onBlockUpdate({
+                      ...block,
+                      width: newWidth,
+                    });
+                  }}
+                  className="p-1 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+                  title="Increase width"
+                >
+                  <ChevronUp size={16} />
+                </button>
+              </div>
             </div>
             <div>
               <Label htmlFor="logoHeight">Height (px)</Label>
