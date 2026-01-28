@@ -129,28 +129,27 @@ export const ButtonBlockComponent: React.FC<ButtonBlockComponentProps> = ({
                 position: "fixed",
                 bottom: "20px",
                 left: "20px",
-                backgroundColor: "#FF6A00",
+                backgroundColor: "#D97706",
                 color: "#FFFFFF",
-                padding: "10px 14px",
+                padding: "8px 12px",
                 borderRadius: "6px",
                 fontSize: "12px",
-                fontWeight: "600",
-                maxWidth: "350px",
-                wordBreak: "break-all",
+                fontWeight: "500",
+                maxWidth: "500px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
                 zIndex: 10001,
-                boxShadow: "0 8px 16px rgba(255, 106, 0, 0.3)",
+                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
                 pointerEvents: "none",
                 animation: "urlDisplay 0.2s ease-in-out",
-                letterSpacing: "0.3px",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
+                letterSpacing: "0px",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
                 fontFamily: "monospace",
               } as React.CSSProperties
             }
           >
-            <div style={{ fontSize: "10px", opacity: 0.9, marginBottom: "4px" }}>
-              URL:
-            </div>
-            {block.link}
+            URL: {block.link}
             <style>{`
               @keyframes urlDisplay {
                 from {
