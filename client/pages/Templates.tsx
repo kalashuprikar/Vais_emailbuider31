@@ -138,25 +138,60 @@ export default function Templates() {
 
         {/* Empty State */}
         {templates.length === 0 ? (
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-16">
-              <Mail className="w-16 h-16 text-gray-400 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No templates yet
-              </h3>
-              <p className="text-gray-600 text-center mb-6 max-w-md">
-                Create your first email template using our drag-and-drop builder
-                to get started with professional email designs.
-              </p>
-              <Button
-                onClick={handleNewTemplate}
-                className="bg-valasys-orange hover:bg-valasys-orange/90 text-white"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Create First Template
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="border-dashed">
+              <CardContent className="flex flex-col items-center justify-center py-16">
+                <Mail className="w-16 h-16 text-gray-400 mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  No templates yet
+                </h3>
+                <p className="text-gray-600 text-center mb-6 max-w-md">
+                  Create your first email template using our drag-and-drop builder
+                  to get started with professional email designs.
+                </p>
+                <Button
+                  onClick={handleNewTemplate}
+                  className="bg-valasys-orange hover:bg-valasys-orange/90 text-white"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create First Template
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* URL Redirect Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ExternalLink className="w-5 h-5 text-valasys-orange" />
+                  Quick Redirect
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter URL (e.g., example.com or https://example.com)"
+                    value={redirectUrl}
+                    onChange={(e) => setRedirectUrl(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleRedirect();
+                      }
+                    }}
+                    className="flex-1"
+                  />
+                  <Button
+                    onClick={handleRedirect}
+                    className="bg-valasys-orange hover:bg-valasys-orange/90 text-white"
+                    disabled={!redirectUrl.trim()}
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Go
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         ) : (
           <>
             {/* Search */}
