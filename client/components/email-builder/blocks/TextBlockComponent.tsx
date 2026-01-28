@@ -61,6 +61,11 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
             borderStyle: block.borderWidth > 0 ? "solid" : "none",
             borderRadius: `${block.borderRadius}px`,
             userSelect: "text",
+            boxSizing: "border-box",
+            overflow: "auto",
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
+            whiteSpace: "normal",
           }}
         />
       ) : (
@@ -80,6 +85,11 @@ export const TextBlockComponent: React.FC<TextBlockComponentProps> = ({
             borderRadius: `${block.borderRadius}px`,
             margin: 0,
             userSelect: "none",
+            boxSizing: "border-box",
+            overflow: "hidden",
+            wordWrap: "break-word",
+            overflowWrap: "break-word",
+            whiteSpace: "normal",
           }}
         >
           {block.content}
