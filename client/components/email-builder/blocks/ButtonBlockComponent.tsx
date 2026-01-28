@@ -47,7 +47,7 @@ export const ButtonBlockComponent: React.FC<ButtonBlockComponentProps> = ({
         margin: `${block.margin}px`,
       }}
     >
-      <div style={{ position: "relative", display: "inline-block" }}>
+      <div style={{ position: "relative", display: "inline-block", overflow: "visible" }}>
         <button
           style={{
             backgroundColor: block.backgroundColor,
@@ -71,7 +71,7 @@ export const ButtonBlockComponent: React.FC<ButtonBlockComponentProps> = ({
           <div
             style={{
               position: "absolute",
-              bottom: "100%",
+              bottom: "calc(100% + 8px)",
               left: "50%",
               transform: "translateX(-50%)",
               backgroundColor: "#333",
@@ -80,10 +80,13 @@ export const ButtonBlockComponent: React.FC<ButtonBlockComponentProps> = ({
               borderRadius: "4px",
               fontSize: "12px",
               whiteSpace: "nowrap",
-              marginBottom: "8px",
-              zIndex: 1000,
+              zIndex: 9999,
               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
               fontWeight: "normal",
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {block.linkTooltip}
