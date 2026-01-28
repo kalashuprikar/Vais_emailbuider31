@@ -747,25 +747,21 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </Label>
                   <div className="flex gap-2">
                     <Input
-                      type="text"
-                      inputMode="numeric"
+                      type="number"
+                      min="0"
                       value={block.width ?? 100}
                       onChange={(e) => {
-                        const inputValue = e.target.value;
-                        const numericValue = inputValue.replace(/[^\d]/g, "");
-                        if (numericValue === "") {
-                          onBlockUpdate({
-                            ...block,
-                            width: 100,
-                          });
+                        const val = e.target.value;
+                        if (val === "") {
+                          onBlockUpdate({ ...block, width: 100 });
                         } else {
-                          onBlockUpdate({
-                            ...block,
-                            width: parseInt(numericValue),
-                          });
+                          const num = parseInt(val);
+                          if (!isNaN(num)) {
+                            onBlockUpdate({ ...block, width: num });
+                          }
                         }
                       }}
-                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                     />
                     <select
                       value={block.widthUnit ?? "%"}
@@ -1509,14 +1505,20 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   <div className="flex gap-2">
                     <Input
                       type="number"
+                      min="0"
                       value={block.width ?? 100}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          width: parseInt(e.target.value) || 100,
-                        })
-                      }
-                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "") {
+                          onBlockUpdate({ ...block, width: 100 });
+                        } else {
+                          const num = parseInt(val);
+                          if (!isNaN(num)) {
+                            onBlockUpdate({ ...block, width: num });
+                          }
+                        }
+                      }}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                     />
                     <select
                       value={block.widthUnit ?? "%"}
@@ -2097,17 +2099,22 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       id="btnWidth"
                       type="number"
                       min="0"
-                      value={block.width}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          width: parseInt(e.target.value),
-                        })
-                      }
-                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                      value={block.width ?? 100}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "") {
+                          onBlockUpdate({ ...block, width: 100 });
+                        } else {
+                          const num = parseInt(val);
+                          if (!isNaN(num)) {
+                            onBlockUpdate({ ...block, width: num });
+                          }
+                        }
+                      }}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                     />
                     <select
-                      value={block.widthUnit}
+                      value={block.widthUnit ?? "%"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
@@ -4405,17 +4412,22 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       id="socialWidth"
                       type="number"
                       min="0"
-                      value={block.width}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          width: parseInt(e.target.value),
-                        })
-                      }
-                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                      value={block.width ?? 100}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "") {
+                          onBlockUpdate({ ...block, width: 0 });
+                        } else {
+                          const num = parseInt(val);
+                          if (!isNaN(num)) {
+                            onBlockUpdate({ ...block, width: num });
+                          }
+                        }
+                      }}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                     />
                     <select
-                      value={block.widthUnit}
+                      value={block.widthUnit ?? "%"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
@@ -4543,21 +4555,50 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     Width
                   </Label>
                   <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        onBlockUpdate({
+                          ...block,
+                          width: Math.max(10, (block.width ?? 100) - 10),
+                        })
+                      }
+                      className="px-2"
+                    >
+                      −
+                    </Button>
                     <Input
                       id="htmlWidth"
                       type="number"
-                      min="0"
-                      value={block.width}
-                      onChange={(e) =>
+                      min="1"
+                      value={block.width ?? 100}
+                      onChange={(e) => {
+                        const val = e.target.value.trim();
+                        if (val === "") return;
+                        const num = parseInt(val, 10);
+                        if (!isNaN(num) && num > 0) {
+                          onBlockUpdate({ ...block, width: num });
+                        }
+                      }}
+                      placeholder="Enter width"
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
+                    />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
                         onBlockUpdate({
                           ...block,
-                          width: parseInt(e.target.value),
+                          width: (block.width ?? 100) + 10,
                         })
                       }
-                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
-                    />
+                      className="px-2"
+                    >
+                      +
+                    </Button>
                     <select
-                      value={block.widthUnit}
+                      value={block.widthUnit ?? "%"}
                       onChange={(e) =>
                         onBlockUpdate({
                           ...block,
