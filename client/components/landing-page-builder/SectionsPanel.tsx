@@ -353,6 +353,12 @@ export const SectionsPanel: React.FC<SectionsPanelProps> = ({
   onBack,
 }) => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const handleSelectTemplate = (templateId: string, blocks: LandingPageBlock[]) => {
+    setSelectedId(templateId);
+    onSelectTemplate(blocks);
+  };
 
   return (
     <div className="flex flex-col h-full bg-white">
@@ -397,10 +403,16 @@ export const SectionsPanel: React.FC<SectionsPanelProps> = ({
           {sectionTemplates.map((template) => (
             <button
               key={template.id}
-              onClick={() => onSelectTemplate(template.blocks())}
-              className="group text-left hover:opacity-75 transition-opacity"
+              onClick={() => handleSelectTemplate(template.id, template.blocks())}
+              className="group text-left"
             >
-              {template.preview}
+              <div className={`transition-all ${
+                selectedId === template.id
+                  ? 'border border-gray-900'
+                  : 'border border-gray-200 hover:border-dashed hover:border-gray-400'
+              }`}>
+                {template.preview}
+              </div>
               <div className="mt-3">
                 <div className="font-semibold text-sm text-gray-900 group-hover:text-valasys-orange transition-colors">
                   {template.name}
