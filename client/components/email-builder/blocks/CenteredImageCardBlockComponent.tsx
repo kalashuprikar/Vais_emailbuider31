@@ -52,9 +52,12 @@ export const CenteredImageCardBlockComponent: React.FC<
       if (sectionType === "title") contentToCopy = block.title;
       else if (sectionType === "description") contentToCopy = block.description;
       else if (sectionType === "buttonText") contentToCopy = block.buttonText;
+      else if (sectionType === "image") contentToCopy = block.image;
 
       if (contentToCopy) {
         navigator.clipboard.writeText(contentToCopy);
+        // Optional: Show a toast notification
+        console.log("Copied:", contentToCopy);
       }
     };
 
