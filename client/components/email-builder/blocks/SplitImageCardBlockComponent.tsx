@@ -51,21 +51,29 @@ export const SplitImageCardBlockComponent: React.FC<
     const trimmedUrl = imageUrlInput.trim();
     if (trimmedUrl) {
       // Validate that it's a proper URL
-      if (trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://')) {
+      if (
+        trimmedUrl.startsWith("http://") ||
+        trimmedUrl.startsWith("https://")
+      ) {
         onBlockUpdate({ ...block, image: trimmedUrl });
         setImageUrlInput("");
       } else {
-        alert('Please enter a valid URL starting with http:// or https://');
+        alert("Please enter a valid URL starting with http:// or https://");
       }
     } else {
-      alert('Please enter an image URL');
+      alert("Please enter an image URL");
     }
   };
 
   const SectionToolbar = ({
     sectionType,
   }: {
-    sectionType: "image" | "title" | "description" | "buttonText" | "buttonLink";
+    sectionType:
+      | "image"
+      | "title"
+      | "description"
+      | "buttonText"
+      | "buttonLink";
   }) => {
     const handleCopy = () => {
       if (sectionType === "title") {
@@ -153,9 +161,7 @@ export const SplitImageCardBlockComponent: React.FC<
     };
 
     return (
-      <div
-        className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2 w-fit"
-      >
+      <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2 w-fit">
         {sectionType !== "image" && (
           <Button
             variant="ghost"
@@ -218,7 +224,8 @@ export const SplitImageCardBlockComponent: React.FC<
       <div className="max-w-2xl mx-auto">
         <div className="flex flex-col md:flex-row gap-4 items-stretch">
           {isImageLeft && (
-            <div className="md:w-2/5"
+            <div
+              className="md:w-2/5"
               onMouseEnter={() => block.image && setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
             >
@@ -229,11 +236,16 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="w-full h-auto rounded"
                   />
-                  <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
+                  <label
+                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
                     onClick={(e) => {
                       // Only open dialog if clicking on the label, not on toolbar buttons
-                      if ((e.target as HTMLElement).tagName === 'LABEL') {
-                        (e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement)?.click();
+                      if ((e.target as HTMLElement).tagName === "LABEL") {
+                        (
+                          e.currentTarget.querySelector(
+                            'input[type="file"]',
+                          ) as HTMLInputElement
+                        )?.click();
                       }
                     }}
                   >
@@ -271,7 +283,9 @@ export const SplitImageCardBlockComponent: React.FC<
                       placeholder="Or paste image URL..."
                       value={imageUrlInput}
                       onChange={(e) => setImageUrlInput(e.target.value)}
-                      onKeyPress={(e) => e.key === "Enter" && handleImageUrlSubmit()}
+                      onKeyPress={(e) =>
+                        e.key === "Enter" && handleImageUrlSubmit()
+                      }
                       className="flex-1 text-xs"
                     />
                     <Button
@@ -295,7 +309,9 @@ export const SplitImageCardBlockComponent: React.FC<
                   {editMode === "title" ? (
                     <Input
                       value={block.title}
-                      onChange={(e) => handleFieldChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleFieldChange("title", e.target.value)
+                      }
                       onBlur={() => setTimeout(() => setEditMode(null), 200)}
                       onMouseDown={(e) => e.stopPropagation()}
                       autoFocus
@@ -317,7 +333,9 @@ export const SplitImageCardBlockComponent: React.FC<
                       {block.title}
                     </p>
                   )}
-                  {editMode === "title" && <SectionToolbar sectionType="title" />}
+                  {editMode === "title" && (
+                    <SectionToolbar sectionType="title" />
+                  )}
                 </div>
               )}
 
@@ -438,7 +456,8 @@ export const SplitImageCardBlockComponent: React.FC<
           </div>
 
           {!isImageLeft && (
-            <div className="md:w-2/5"
+            <div
+              className="md:w-2/5"
               onMouseEnter={() => block.image && setIsHoveringImage(true)}
               onMouseLeave={() => setIsHoveringImage(false)}
             >
@@ -449,11 +468,16 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="w-full h-auto rounded"
                   />
-                  <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
+                  <label
+                    className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 opacity-0 group-hover:opacity-100 transition-all cursor-pointer rounded"
                     onClick={(e) => {
                       // Only open dialog if clicking on the label, not on toolbar buttons
-                      if ((e.target as HTMLElement).tagName === 'LABEL') {
-                        (e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement)?.click();
+                      if ((e.target as HTMLElement).tagName === "LABEL") {
+                        (
+                          e.currentTarget.querySelector(
+                            'input[type="file"]',
+                          ) as HTMLInputElement
+                        )?.click();
                       }
                     }}
                   >
@@ -491,7 +515,9 @@ export const SplitImageCardBlockComponent: React.FC<
                       placeholder="Or paste image URL..."
                       value={imageUrlInput}
                       onChange={(e) => setImageUrlInput(e.target.value)}
-                      onKeyPress={(e) => e.key === "Enter" && handleImageUrlSubmit()}
+                      onKeyPress={(e) =>
+                        e.key === "Enter" && handleImageUrlSubmit()
+                      }
                       className="flex-1 text-xs"
                     />
                     <Button
