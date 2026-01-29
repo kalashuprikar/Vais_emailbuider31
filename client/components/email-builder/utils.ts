@@ -1161,7 +1161,7 @@ export function renderBlockToHTML(block: ContentBlock): string {
       const label = splitBlock.label
         ? `<span style="display: inline-block; background-color: #FF6A00; color: #ffffff; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 8px;">${splitBlock.label}</span>`
         : "";
-      return `<div style="background-color: ${splitBlock.backgroundColor}; border-radius: ${splitBlock.borderRadius}px; ${borderStyle} margin: ${splitBlock.margin}px; max-width: 600px; margin-left: auto; margin-right: auto; overflow: hidden;">
+      return `<div style="background-color: ${splitBlock.backgroundColor}; border-radius: ${splitBlock.borderRadius}px; ${borderStyle} margin: ${splitBlock.margin}px; max-width: 500px; margin-left: auto; margin-right: auto; overflow: hidden;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td width="${imageSide}" style="vertical-align: middle; padding: 20px; text-align: center;">
