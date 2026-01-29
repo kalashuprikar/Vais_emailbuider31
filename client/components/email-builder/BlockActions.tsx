@@ -27,7 +27,7 @@ import {
 } from "./utils";
 
 interface BlockActionsProps {
-  blockId: string;
+  block: ContentBlock;
   blockIndex: number;
   totalBlocks: number;
   onAddBlock: (block: ContentBlock, position: number) => void;
