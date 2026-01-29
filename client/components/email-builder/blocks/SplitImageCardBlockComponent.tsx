@@ -96,10 +96,6 @@ export const SplitImageCardBlockComponent: React.FC<
             <div className="space-y-3 p-4">
               {block.label && (
                 <div>
-                  <label className="text-xs font-semibold text-gray-600 flex items-center gap-2">
-                    <Edit2 className="w-3 h-3" />
-                    Label
-                  </label>
                   {editMode === "label" ? (
                     <Input
                       value={block.label}
