@@ -132,17 +132,21 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
                 top: 0,
                 height: "100%",
                 width: "12px",
-                backgroundColor: isResizing ? "#FF6B35" : "rgba(255, 107, 53, 0.4)",
+                backgroundColor: isResizing
+                  ? "#FF6B35"
+                  : "rgba(255, 107, 53, 0.4)",
                 cursor: "col-resize",
                 zIndex: 50,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FF6B35";
+                (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                  "#FF6B35";
                 (e.currentTarget as HTMLDivElement).style.opacity = "1";
               }}
               onMouseLeave={(e) => {
                 if (!isResizing) {
-                  (e.currentTarget as HTMLDivElement).style.backgroundColor = "rgba(255, 107, 53, 0.4)";
+                  (e.currentTarget as HTMLDivElement).style.backgroundColor =
+                    "rgba(255, 107, 53, 0.4)";
                   (e.currentTarget as HTMLDivElement).style.opacity = "0.7";
                 }
               }}
