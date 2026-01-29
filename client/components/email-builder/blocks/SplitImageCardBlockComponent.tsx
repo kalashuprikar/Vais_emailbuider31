@@ -157,6 +157,7 @@ export const SplitImageCardBlockComponent: React.FC<
                     }
                     onBlur={() => setEditMode(null)}
                     autoFocus
+                    className="border-2 border-solid border-valasys-orange focus:outline-none"
                   />
                 ) : (
                   <button
