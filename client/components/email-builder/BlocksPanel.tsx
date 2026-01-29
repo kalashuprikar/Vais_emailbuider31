@@ -46,6 +46,7 @@ import {
   createHeaderLogoAndNavigationTemplate,
   createFooterWithSocialTemplate,
   createFooterWithContactTemplate,
+  createTopImageSectionTemplate,
 } from "./utils";
 import { ContentBlock } from "./types";
 
