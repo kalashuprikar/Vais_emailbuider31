@@ -78,7 +78,7 @@ export const DraggableBlock: React.FC<DraggableBlockProps> = ({
       )}
     >
       {/* Drag Hint */}
-      {!isDragging && (
+      {!isDragging && block.type !== "centeredImageCard" && (
         <div className="absolute left-0 top-0 h-full w-1 bg-valasys-orange opacity-0 group-hover:opacity-100 transition-opacity rounded-l-lg pointer-events-none" />
       )}
 
