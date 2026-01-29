@@ -1165,7 +1165,7 @@ export function renderBlockToHTML(block: ContentBlock): string {
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td width="${imageSide}" style="vertical-align: middle; padding: 15px; text-align: center;">
-              <img src="${splitBlock.image}" alt="${splitBlock.imageAlt}" style="width: 100%; height: auto; display: block; border-radius: 4px;" />
+              <img src="${splitBlock.image}" alt="${splitBlock.imageAlt}" style="width: 100%; height: 250px; object-fit: cover; display: block; border-radius: 4px;" />
             </td>
             <td width="${contentSide}" style="vertical-align: top; padding: 15px;">
               ${label}
