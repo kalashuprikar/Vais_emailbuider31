@@ -1164,10 +1164,10 @@ export function renderBlockToHTML(block: ContentBlock): string {
       return `<div style="background-color: ${splitBlock.backgroundColor}; border-radius: ${splitBlock.borderRadius}px; ${borderStyle} margin: ${splitBlock.margin}px; max-width: 600px; margin-left: auto; margin-right: auto; overflow: hidden;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td width="${imageSide}" style="vertical-align: middle; padding: 20px; text-align: center;">
+            <td width="${imageSide}" style="vertical-align: middle; padding: 15px; text-align: center;">
               <img src="${splitBlock.image}" alt="${splitBlock.imageAlt}" style="width: 100%; height: auto; display: block; border-radius: 4px;" />
             </td>
-            <td width="${contentSide}" style="vertical-align: top; padding: 20px;">
+            <td width="${contentSide}" style="vertical-align: top; padding: 15px;">
               ${label}
               <h2 style="margin: 0 0 12px 0; font-size: 20px; font-weight: bold; color: #000;">${splitBlock.title}</h2>
               <p style="margin: 0 0 16px 0; font-size: 14px; color: #666; line-height: 1.5; white-space: pre-line;">${splitBlock.description}</p>
