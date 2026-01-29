@@ -142,9 +142,11 @@ export const EmailCanvas: React.FC<EmailCanvasProps> = ({
                   index={index}
                   totalBlocks={template.blocks.length}
                   isSelected={selectedBlockId === block.id}
+                  isEditing={editingBlockId === block.id}
                   selectedFooterElement={selectedFooterElement}
                   onBlockUpdate={onBlockUpdate}
                   onBlockSelect={onBlockSelect}
+                  onEditingBlockChange={onEditingBlockChange}
                   onFooterElementSelect={onFooterElementSelect}
                   onMoveBlock={onMoveBlock}
                   onAddBlock={(newBlock, position) => {
