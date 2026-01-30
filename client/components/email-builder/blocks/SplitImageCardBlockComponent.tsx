@@ -79,62 +79,41 @@ export const SplitImageCardBlockComponent: React.FC<
       | "buttonLink";
   }) => {
     const handleCopy = () => {
+      let contentToCopy = "";
+      let successMessage = "";
+
       if (sectionType === "title") {
-        if (block.title) {
-          const newTitle = block.title + "\n" + block.title;
-          onBlockUpdate({ ...block, title: newTitle });
-          toast.success("Title duplicated!");
-        } else {
-          toast.error("Title is empty");
-        }
+        contentToCopy = block.title;
+        successMessage = "Title copied to clipboard!";
       } else if (sectionType === "description") {
-        if (block.description) {
-          const newDescription = block.description + "\n" + block.description;
-          onBlockUpdate({ ...block, description: newDescription });
-          toast.success("Description duplicated!");
-        } else {
-          toast.error("Description is empty");
-        }
+        contentToCopy = block.description;
+        successMessage = "Description copied to clipboard!";
       } else if (sectionType === "buttonText") {
-        if (block.buttonText) {
-          const newButtonText = block.buttonText + " " + block.buttonText;
-          onBlockUpdate({ ...block, buttonText: newButtonText });
-          toast.success("Button text duplicated!");
-        } else {
-          toast.error("Button text is empty");
-        }
+        contentToCopy = block.buttonText;
+        successMessage = "Button text copied to clipboard!";
       } else if (sectionType === "buttonLink") {
-        if (block.buttonLink) {
-          try {
-            const textArea = document.createElement("textarea");
-            textArea.value = block.buttonLink;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textArea);
-            toast.success("Link copied to clipboard!");
-          } catch (err) {
-            toast.error("Failed to copy link");
-          }
-        } else {
-          toast.error("Link is empty");
-        }
+        contentToCopy = block.buttonLink;
+        successMessage = "Link copied to clipboard!";
       } else if (sectionType === "image") {
-        if (block.image) {
-          try {
-            const textArea = document.createElement("textarea");
-            textArea.value = block.image;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textArea);
-            toast.success("Image URL copied!");
-          } catch (err) {
-            toast.error("Failed to copy image URL");
-          }
-        } else {
-          toast.error("Image URL is empty");
-        }
+        contentToCopy = block.image;
+        successMessage = "Image URL copied to clipboard!";
+      }
+
+      if (!contentToCopy) {
+        toast.error("Content is empty");
+        return;
+      }
+
+      try {
+        const textArea = document.createElement("textarea");
+        textArea.value = contentToCopy;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        toast.success(successMessage);
+      } catch (err) {
+        toast.error("Failed to copy");
       }
     };
 
