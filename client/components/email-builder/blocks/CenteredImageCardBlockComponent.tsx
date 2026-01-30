@@ -474,15 +474,6 @@ export const CenteredImageCardBlockComponent: React.FC<
                   )}
                 </div>
               ))}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleAddTitle}
-                className="gap-2 text-xs"
-              >
-                <Plus className="w-3 h-3" />
-                Add Title
-              </Button>
             </div>
           )}
 
@@ -556,15 +547,6 @@ export const CenteredImageCardBlockComponent: React.FC<
                   )}
                 </div>
               ))}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleAddDescription}
-                className="gap-2 text-xs"
-              >
-                <Plus className="w-3 h-3" />
-                Add Description
-              </Button>
             </div>
           )}
 
@@ -647,15 +629,6 @@ export const CenteredImageCardBlockComponent: React.FC<
                   )}
                 </div>
               ))}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleAddButton}
-                className="gap-2 text-xs"
-              >
-                <Plus className="w-3 h-3" />
-                Add Button
-              </Button>
             </div>
           )}
         </div>
