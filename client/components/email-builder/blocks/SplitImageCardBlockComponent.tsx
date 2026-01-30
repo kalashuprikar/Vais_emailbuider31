@@ -393,8 +393,8 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="rounded"
                     style={{
-                      width: `${block.width || 300}px`,
-                      height: `${block.height || 200}px`,
+                      width: block.width ? `${block.width}px` : "auto",
+                      height: block.height ? `${block.height}px` : "auto",
                       display: "block",
                       maxWidth: "100%",
                       objectFit: "cover",
@@ -726,8 +726,8 @@ export const SplitImageCardBlockComponent: React.FC<
                     alt={block.imageAlt}
                     className="rounded"
                     style={{
-                      width: `${block.width || 300}px`,
-                      height: `${block.height || 200}px`,
+                      width: block.width ? `${block.width}px` : "auto",
+                      height: block.height ? `${block.height}px` : "auto",
                       display: "block",
                       maxWidth: "100%",
                       objectFit: "cover",
