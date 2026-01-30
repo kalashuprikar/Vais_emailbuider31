@@ -144,7 +144,7 @@ export const ImageBlockComponent: React.FC<ImageBlockComponentProps> = ({
               className="absolute top-0 right-0 flex gap-2 items-center bg-white border border-gray-300 rounded-lg p-2 shadow-lg z-50"
               style={{
                 transform: "translateY(-100%)",
-                marginTop: "-8px"
+                marginTop: "-8px",
               }}
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
