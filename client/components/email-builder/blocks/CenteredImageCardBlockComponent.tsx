@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CenteredImageCardBlock } from "../types";
 import { ContentBlock } from "../types";
-import { Upload, Edit2, Plus, Copy, Trash2 } from "lucide-react";
+import { Upload, Edit2, Copy, Trash2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -10,21 +10,13 @@ interface CenteredImageCardBlockComponentProps {
   block: CenteredImageCardBlock;
   isSelected: boolean;
   onBlockUpdate: (block: CenteredImageCardBlock) => void;
-  blockIndex?: number;
   onDuplicate?: (block: CenteredImageCardBlock, position: number) => void;
-  onDelete?: () => void;
+  blockIndex?: number;
 }
 
 export const CenteredImageCardBlockComponent: React.FC<
   CenteredImageCardBlockComponentProps
-> = ({
-  block,
-  isSelected,
-  onBlockUpdate,
-  blockIndex = 0,
-  onDuplicate,
-  onDelete,
-}) => {
+> = ({ block, isSelected, onBlockUpdate, onDuplicate, blockIndex = 0 }) => {
   const [editMode, setEditMode] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
@@ -141,47 +133,23 @@ export const CenteredImageCardBlockComponent: React.FC<
   const SectionToolbar = ({
     sectionType,
   }: {
-    sectionType: "image" | "title" | "description" | "buttonText";
+    sectionType:
+      | "image"
+      | "title"
+      | "description"
+      | "buttonText"
+      | "buttonLink";
   }) => {
     const handleCopy = () => {
-      let contentToCopy = "";
-      let successMessage = "";
-
-      if (sectionType === "title") {
-        contentToCopy = block.title;
-        successMessage = "Title copied to clipboard!";
-      } else if (sectionType === "description") {
-        contentToCopy = block.description;
-        successMessage = "Description copied to clipboard!";
-      } else if (sectionType === "buttonText") {
-        contentToCopy = block.buttonText;
-        successMessage = "Button text copied to clipboard!";
-      } else if (sectionType === "image") {
-        contentToCopy = block.image;
-        successMessage = "Image URL copied to clipboard!";
-      }
-
-      if (!contentToCopy) {
-        toast.error("Content is empty");
+      if (!onDuplicate) {
+        toast.error("Duplication not available");
         return;
       }
 
-      try {
-        // Use fallback method that's more compatible
-        const textArea = document.createElement("textarea");
-        textArea.value = contentToCopy;
-        textArea.style.position = "fixed";
-        textArea.style.left = "-9999px";
-        textArea.style.top = "-9999px";
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-        toast.success(successMessage);
-      } catch (err) {
-        toast.error("Failed to copy");
-        console.error("Copy failed:", err);
-      }
+      // Duplicate the entire block
+      onDuplicate(block, blockIndex + 1);
+      toast.success("Block duplicated!");
+      setEditMode(null);
     };
 
     const handleDelete = () => {
@@ -194,16 +162,23 @@ export const CenteredImageCardBlockComponent: React.FC<
       } else if (sectionType === "buttonText") {
         onBlockUpdate({ ...block, buttonText: "" });
         setEditMode(null);
+      } else if (sectionType === "buttonLink") {
+        onBlockUpdate({ ...block, buttonLink: "" });
+        setEditMode(null);
       } else if (sectionType === "image") {
         onBlockUpdate({ ...block, image: "" });
         setEditMode(null);
       }
+      toast.success("Deleted!");
     };
 
     const handleAdd = () => {
-      // Add text/content to the section
-      if (sectionType === "title" || sectionType === "description") {
-        // For now, just focus on the field when add is clicked
+      if (
+        sectionType === "title" ||
+        sectionType === "description" ||
+        sectionType === "buttonText" ||
+        sectionType === "buttonLink"
+      ) {
         setEditMode(sectionType);
       }
     };
@@ -395,14 +370,17 @@ export const CenteredImageCardBlockComponent: React.FC<
           {(block.title || editMode === "title") && (
             <div>
               {editMode === "title" ? (
-                <Input
-                  value={block.title}
-                  onChange={(e) => handleFieldChange("title", e.target.value)}
-                  onBlur={() => setEditMode(null)}
-                  autoFocus
-                  className="text-center font-bold text-lg focus:outline-none"
-                  style={{ border: "2px solid rgb(255, 106, 0)" }}
-                />
+                <>
+                  <Input
+                    value={block.title}
+                    onChange={(e) => handleFieldChange("title", e.target.value)}
+                    onBlur={() => setEditMode(null)}
+                    autoFocus
+                    className="text-center font-bold text-lg focus:outline-none"
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
+                  />
+                  <SectionToolbar sectionType="title" />
+                </>
               ) : (
                 <h3
                   onClick={() => setEditMode("title")}
@@ -424,26 +402,29 @@ export const CenteredImageCardBlockComponent: React.FC<
           {(block.description || editMode === "description") && (
             <div>
               {editMode === "description" ? (
-                <textarea
-                  value={block.description}
-                  onChange={(e) =>
-                    handleFieldChange("description", e.target.value)
-                  }
-                  onBlur={() => setEditMode(null)}
-                  autoFocus
-                  className="w-full resize-none"
-                  style={{
-                    padding: "1rem",
-                    borderRadius: "0.5rem",
-                    fontSize: "0.875rem",
-                    color: "rgb(55, 65, 81)",
-                    minHeight: "7rem",
-                    border: "2px solid rgb(255, 106, 0)",
-                    boxSizing: "border-box",
-                    outline: "none",
-                    backgroundColor: "white",
-                  }}
-                />
+                <>
+                  <textarea
+                    value={block.description}
+                    onChange={(e) =>
+                      handleFieldChange("description", e.target.value)
+                    }
+                    onBlur={() => setEditMode(null)}
+                    autoFocus
+                    className="w-full resize-none"
+                    style={{
+                      padding: "1rem",
+                      borderRadius: "0.5rem",
+                      fontSize: "0.875rem",
+                      color: "rgb(55, 65, 81)",
+                      minHeight: "7rem",
+                      border: "2px solid rgb(255, 106, 0)",
+                      boxSizing: "border-box",
+                      outline: "none",
+                      backgroundColor: "white",
+                    }}
+                  />
+                  <SectionToolbar sectionType="description" />
+                </>
               ) : (
                 <p
                   onClick={() => setEditMode("description")}
@@ -465,16 +446,21 @@ export const CenteredImageCardBlockComponent: React.FC<
           {(block.buttonText || editMode === "buttonText") && (
             <div className="pt-2">
               {editMode === "buttonText" ? (
-                <Input
-                  value={block.buttonText}
-                  onChange={(e) =>
-                    handleFieldChange("buttonText", e.target.value)
-                  }
-                  onBlur={() => setEditMode(null)}
-                  autoFocus
-                  className="text-center focus:outline-none"
-                  style={{ border: "2px solid rgb(255, 106, 0)" }}
-                />
+                <>
+                  <Input
+                    value={block.buttonText}
+                    onChange={(e) =>
+                      handleFieldChange("buttonText", e.target.value)
+                    }
+                    onBlur={() => setEditMode(null)}
+                    autoFocus
+                    className="text-center focus:outline-none"
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
+                  />
+                  <div className="flex justify-center mt-2">
+                    <SectionToolbar sectionType="buttonText" />
+                  </div>
+                </>
               ) : (
                 <div className="flex justify-center">
                   <button
@@ -496,17 +482,20 @@ export const CenteredImageCardBlockComponent: React.FC<
           {(block.buttonLink || editMode === "buttonLink") && (
             <div>
               {editMode === "buttonLink" ? (
-                <Input
-                  value={block.buttonLink}
-                  onChange={(e) =>
-                    handleFieldChange("buttonLink", e.target.value)
-                  }
-                  onBlur={() => setEditMode(null)}
-                  autoFocus
-                  placeholder="https://example.com"
-                  className="text-sm text-center focus:outline-none"
-                  style={{ border: "2px solid rgb(255, 106, 0)" }}
-                />
+                <>
+                  <Input
+                    value={block.buttonLink}
+                    onChange={(e) =>
+                      handleFieldChange("buttonLink", e.target.value)
+                    }
+                    onBlur={() => setEditMode(null)}
+                    autoFocus
+                    placeholder="https://example.com"
+                    className="text-sm text-center focus:outline-none"
+                    style={{ border: "2px solid rgb(255, 106, 0)" }}
+                  />
+                  <SectionToolbar sectionType="buttonLink" />
+                </>
               ) : (
                 <p
                   onClick={() => setEditMode("buttonLink")}
@@ -525,46 +514,6 @@ export const CenteredImageCardBlockComponent: React.FC<
             </div>
           )}
         </div>
-
-        {isSelected && (onDuplicate || onDelete) && (
-          <div className="flex justify-end mt-4 gap-1">
-            <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm">
-              {onDuplicate && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 hover:bg-gray-100"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDuplicate(block, blockIndex + 1);
-                  }}
-                  title="Duplicate block"
-                >
-                  <Copy className="w-4 h-4 text-gray-700" />
-                </Button>
-              )}
-
-              {onDelete && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 hover:bg-red-100"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete();
-                  }}
-                  title="Delete block"
-                >
-                  <Trash2 className="w-4 h-4 text-red-600" />
-                </Button>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

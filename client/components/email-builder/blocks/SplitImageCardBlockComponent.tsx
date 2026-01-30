@@ -10,20 +10,12 @@ interface SplitImageCardBlockComponentProps {
   isSelected: boolean;
   onBlockUpdate: (block: SplitImageCardBlock) => void;
   onDuplicate?: (block: SplitImageCardBlock, position: number) => void;
-  onDelete?: () => void;
   blockIndex?: number;
 }
 
 export const SplitImageCardBlockComponent: React.FC<
   SplitImageCardBlockComponentProps
-> = ({
-  block,
-  isSelected,
-  onBlockUpdate,
-  onDuplicate,
-  onDelete,
-  blockIndex = 0,
-}) => {
+> = ({ block, isSelected, onBlockUpdate, onDuplicate, blockIndex = 0 }) => {
   const [editMode, setEditMode] = useState<string | null>(null);
   const [isHoveringTitle, setIsHoveringTitle] = useState(false);
   const [isHoveringDescription, setIsHoveringDescription] = useState(false);
@@ -76,6 +68,100 @@ export const SplitImageCardBlockComponent: React.FC<
   };
 
   const isImageLeft = block.imagePosition === "left";
+
+  const SectionToolbar = ({
+    sectionType,
+  }: {
+    sectionType: "title" | "description" | "buttonText" | "buttonLink";
+  }) => {
+    const handleCopy = () => {
+      if (!onDuplicate) {
+        toast.error("Duplication not available");
+        return;
+      }
+
+      // Duplicate the entire block
+      onDuplicate(block, blockIndex + 1);
+      toast.success("Block duplicated!");
+      setEditMode(null);
+    };
+
+    const handleDelete = () => {
+      if (sectionType === "title") {
+        onBlockUpdate({ ...block, title: "" });
+        setEditMode(null);
+      } else if (sectionType === "description") {
+        onBlockUpdate({ ...block, description: "" });
+        setEditMode(null);
+      } else if (sectionType === "buttonText") {
+        onBlockUpdate({ ...block, buttonText: "" });
+        setEditMode(null);
+      } else if (sectionType === "buttonLink") {
+        onBlockUpdate({ ...block, buttonLink: "" });
+        setEditMode(null);
+      }
+      toast.success("Deleted!");
+    };
+
+    const handleAdd = () => {
+      if (
+        sectionType === "title" ||
+        sectionType === "description" ||
+        sectionType === "buttonText" ||
+        sectionType === "buttonLink"
+      ) {
+        setEditMode(sectionType);
+      }
+    };
+
+    return (
+      <div
+        className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2 w-fit"
+        onMouseDown={(e) => e.preventDefault()}
+      >
+        {sectionType !== "buttonLink" && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 hover:bg-gray-100"
+            title="Add"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              handleAdd();
+            }}
+          >
+            <Plus className="w-3 h-3 text-gray-700" />
+          </Button>
+        )}
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 hover:bg-gray-100"
+          title="Copy"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCopy();
+          }}
+        >
+          <Copy className="w-3 h-3 text-gray-700" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 hover:bg-red-100"
+          title="Delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
+        >
+          <Trash2 className="w-3 h-3 text-red-600" />
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <div
@@ -168,17 +254,20 @@ export const SplitImageCardBlockComponent: React.FC<
               {(block.title || editMode === "title") && (
                 <div>
                   {editMode === "title" ? (
-                    <Input
-                      value={block.title}
-                      onChange={(e) =>
-                        handleFieldChange("title", e.target.value)
-                      }
-                      onBlur={() => setTimeout(() => setEditMode(null), 200)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      autoFocus
-                      className="font-bold text-lg focus:outline-none"
-                      style={{ border: "2px solid rgb(255, 106, 0)" }}
-                    />
+                    <>
+                      <Input
+                        value={block.title}
+                        onChange={(e) =>
+                          handleFieldChange("title", e.target.value)
+                        }
+                        onBlur={() => setTimeout(() => setEditMode(null), 200)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        autoFocus
+                        className="font-bold text-lg focus:outline-none"
+                        style={{ border: "2px solid rgb(255, 106, 0)" }}
+                      />
+                      <SectionToolbar sectionType="title" />
+                    </>
                   ) : (
                     <p
                       onClick={() => setEditMode("title")}
@@ -200,27 +289,30 @@ export const SplitImageCardBlockComponent: React.FC<
               {(block.description || editMode === "description") && (
                 <div>
                   {editMode === "description" ? (
-                    <textarea
-                      value={block.description}
-                      onChange={(e) =>
-                        handleFieldChange("description", e.target.value)
-                      }
-                      onBlur={() => setTimeout(() => setEditMode(null), 200)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      autoFocus
-                      className="w-full resize-none"
-                      style={{
-                        padding: "1rem",
-                        borderRadius: "0.5rem",
-                        fontSize: "0.875rem",
-                        color: "rgb(55, 65, 81)",
-                        minHeight: "6rem",
-                        border: "2px solid rgb(255, 106, 0)",
-                        boxSizing: "border-box",
-                        outline: "none",
-                        backgroundColor: "white",
-                      }}
-                    />
+                    <>
+                      <textarea
+                        value={block.description}
+                        onChange={(e) =>
+                          handleFieldChange("description", e.target.value)
+                        }
+                        onBlur={() => setTimeout(() => setEditMode(null), 200)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        autoFocus
+                        className="w-full resize-none"
+                        style={{
+                          padding: "1rem",
+                          borderRadius: "0.5rem",
+                          fontSize: "0.875rem",
+                          color: "rgb(55, 65, 81)",
+                          minHeight: "6rem",
+                          border: "2px solid rgb(255, 106, 0)",
+                          boxSizing: "border-box",
+                          outline: "none",
+                          backgroundColor: "white",
+                        }}
+                      />
+                      <SectionToolbar sectionType="description" />
+                    </>
                   ) : (
                     <p
                       onClick={() => setEditMode("description")}
@@ -242,17 +334,22 @@ export const SplitImageCardBlockComponent: React.FC<
               {(block.buttonText || editMode === "buttonText") && (
                 <div>
                   {editMode === "buttonText" ? (
-                    <Input
-                      value={block.buttonText}
-                      onChange={(e) =>
-                        handleFieldChange("buttonText", e.target.value)
-                      }
-                      onBlur={() => setTimeout(() => setEditMode(null), 200)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      autoFocus
-                      className="focus:outline-none"
-                      style={{ border: "2px solid rgb(255, 106, 0)" }}
-                    />
+                    <>
+                      <Input
+                        value={block.buttonText}
+                        onChange={(e) =>
+                          handleFieldChange("buttonText", e.target.value)
+                        }
+                        onBlur={() => setTimeout(() => setEditMode(null), 200)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        autoFocus
+                        className="focus:outline-none"
+                        style={{ border: "2px solid rgb(255, 106, 0)" }}
+                      />
+                      <div className="mt-2">
+                        <SectionToolbar sectionType="buttonText" />
+                      </div>
+                    </>
                   ) : (
                     <button
                       onClick={() => setEditMode("buttonText")}
@@ -272,18 +369,21 @@ export const SplitImageCardBlockComponent: React.FC<
               {(block.buttonLink || editMode === "buttonLink") && (
                 <div>
                   {editMode === "buttonLink" ? (
-                    <Input
-                      value={block.buttonLink}
-                      onChange={(e) =>
-                        handleFieldChange("buttonLink", e.target.value)
-                      }
-                      onBlur={() => setTimeout(() => setEditMode(null), 200)}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      autoFocus
-                      placeholder="https://example.com"
-                      className="text-sm focus:outline-none"
-                      style={{ border: "2px solid rgb(255, 106, 0)" }}
-                    />
+                    <>
+                      <Input
+                        value={block.buttonLink}
+                        onChange={(e) =>
+                          handleFieldChange("buttonLink", e.target.value)
+                        }
+                        onBlur={() => setTimeout(() => setEditMode(null), 200)}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        autoFocus
+                        placeholder="https://example.com"
+                        className="text-sm focus:outline-none"
+                        style={{ border: "2px solid rgb(255, 106, 0)" }}
+                      />
+                      <SectionToolbar sectionType="buttonLink" />
+                    </>
                   ) : (
                     <p
                       onClick={() => setEditMode("buttonLink")}
@@ -379,7 +479,7 @@ export const SplitImageCardBlockComponent: React.FC<
           )}
         </div>
 
-        <div className="mt-4 flex gap-2 justify-between">
+        <div className="mt-4">
           <Button
             onClick={toggleImagePosition}
             variant="outline"
@@ -388,44 +488,6 @@ export const SplitImageCardBlockComponent: React.FC<
           >
             Swap Image Position
           </Button>
-
-          {isSelected && (onDuplicate || onDelete) && (
-            <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm">
-              {onDuplicate && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 hover:bg-gray-100"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDuplicate(block, blockIndex + 1);
-                  }}
-                  title="Duplicate block"
-                >
-                  <Copy className="w-4 h-4 text-gray-700" />
-                </Button>
-              )}
-
-              {onDelete && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0 hover:bg-red-100"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete();
-                  }}
-                  title="Delete block"
-                >
-                  <Trash2 className="w-4 h-4 text-red-600" />
-                </Button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>
