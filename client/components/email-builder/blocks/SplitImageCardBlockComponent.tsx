@@ -365,17 +365,20 @@ export const SplitImageCardBlockComponent: React.FC<
                       style={{ border: "2px solid rgb(255, 106, 0)" }}
                     />
                   ) : (
-                    <button
-                      onClick={() => setEditMode("buttonText")}
-                      onMouseEnter={() => setIsHoveringButton(true)}
-                      onMouseLeave={() => setIsHoveringButton(false)}
-                      className="py-2 px-4 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
-                      style={{
-                        border: isHoveringButton ? "1px dashed white" : "none",
-                      }}
-                    >
-                      {block.buttonText}
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setEditMode("buttonText")}
+                        onMouseEnter={() => setIsHoveringButton(true)}
+                        onMouseLeave={() => setIsHoveringButton(false)}
+                        className="py-2 px-4 bg-valasys-orange text-white rounded text-sm font-bold hover:bg-orange-600 cursor-pointer transition-all"
+                        style={{
+                          border: isHoveringButton ? "1px dashed white" : "none",
+                        }}
+                      >
+                        {block.buttonText}
+                      </button>
+                      {isHoveringButton && <div className="mt-2"><SectionToolbar sectionType="buttonText" /></div>}
+                    </>
                   )}
                 </div>
               )}
@@ -396,19 +399,22 @@ export const SplitImageCardBlockComponent: React.FC<
                       style={{ border: "2px solid rgb(255, 106, 0)" }}
                     />
                   ) : (
-                    <p
-                      onClick={() => setEditMode("buttonLink")}
-                      onMouseEnter={() => setIsHoveringButtonLink(true)}
-                      onMouseLeave={() => setIsHoveringButtonLink(false)}
-                      className="text-xs text-gray-500 cursor-pointer p-3 rounded break-all transition-all"
-                      style={{
-                        border: isHoveringButtonLink
-                          ? "1px dashed rgb(255, 106, 0)"
-                          : "none",
-                      }}
-                    >
-                      {block.buttonLink || "#"}
-                    </p>
+                    <>
+                      <p
+                        onClick={() => setEditMode("buttonLink")}
+                        onMouseEnter={() => setIsHoveringButtonLink(true)}
+                        onMouseLeave={() => setIsHoveringButtonLink(false)}
+                        className="text-xs text-gray-500 cursor-pointer p-3 rounded break-all transition-all"
+                        style={{
+                          border: isHoveringButtonLink
+                            ? "1px dashed rgb(255, 106, 0)"
+                            : "none",
+                        }}
+                      >
+                        {block.buttonLink || "#"}
+                      </p>
+                      {isHoveringButtonLink && <SectionToolbar sectionType="buttonLink" />}
+                    </>
                   )}
                 </div>
               )}
