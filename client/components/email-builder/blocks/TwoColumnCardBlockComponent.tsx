@@ -269,10 +269,10 @@ export const TwoColumnCardBlockComponent: React.FC<
                   )}
                 </>
               ) : (
-                <label className="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center justify-center w-full h-40 bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors rounded">
                   <div className="flex flex-col items-center justify-center">
                     <Upload className="w-6 h-6 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">Click to upload</p>
+                    <p className="text-sm text-gray-400">Click to upload</p>
                   </div>
                   <input
                     type="file"
