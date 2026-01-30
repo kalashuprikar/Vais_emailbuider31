@@ -1443,27 +1443,35 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     crossOrigin="anonymous"
                     className="max-w-full max-h-full"
                     onError={(e) => {
-                      console.error(
-                        "❌ Image failed to load. This may be due to CORS restrictions or an invalid URL.",
-                        (block as any).src,
-                      );
-                      (e.target as HTMLImageElement).style.display = "none";
-                      const parent = (e.target as HTMLImageElement)
-                        .parentElement;
-                      if (parent) {
-                        const errorDiv = document.createElement("div");
-                        errorDiv.className =
-                          "text-gray-400 text-xs text-center p-4";
-                        errorDiv.innerHTML = `
-                          <div style="margin-bottom: 8px;">⚠️ Image failed to load</div>
-                          <div style="font-size: 11px; color: #999; margin-bottom: 8px;">
-                            Possible reasons: CORS restrictions, invalid URL, or server issues
-                          </div>
-                          <div style="font-size: 11px; color: #999;">
-                            Solution: Upload the image directly instead of using an external URL
-                          </div>
-                        `;
-                        parent.appendChild(errorDiv);
+                      const imgElement = e.target as HTMLImageElement;
+                      const currentSrc = imgElement.src;
+
+                      // Check if this is the original URL or already a proxy attempt
+                      if (!currentSrc.includes("cors-anywhere") && !currentSrc.includes("corsproxy")) {
+                        console.warn("⚠️ Image blocked by CORS. Retrying with CORS proxy...", (block as any).src);
+                        // Try with CORS proxy
+                        imgElement.src = `https://cors-anywhere.herokuapp.com/${(block as any).src}`;
+
+                        // Set a timeout to show error if proxy also fails
+                        imgElement.onerror = () => {
+                          imgElement.style.display = "none";
+                          const parent = imgElement.parentElement;
+                          if (parent) {
+                            const errorDiv = document.createElement("div");
+                            errorDiv.className =
+                              "text-gray-400 text-xs text-center p-4";
+                            errorDiv.innerHTML = `
+                              <div style="margin-bottom: 8px;">⚠️ Image failed to load</div>
+                              <div style="font-size: 11px; color: #999; margin-bottom: 8px;">
+                                The image server is blocking requests (CORS restricted)
+                              </div>
+                              <div style="font-size: 11px; color: #999;">
+                                <strong>Solution:</strong> Download and upload the image directly
+                              </div>
+                            `;
+                            parent.appendChild(errorDiv);
+                          }
+                        };
                       }
                     }}
                   />
