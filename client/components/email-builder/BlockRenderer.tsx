@@ -79,6 +79,9 @@ export const BlockRenderer: React.FC<BlockRendererProps> = ({
             onEdit={() => onBlockSelect?.(block.id)}
             onEditingChange={onEditingBlockChange}
             onContentChange={(content) => onBlockUpdate({ ...block, content })}
+            onDuplicate={onDuplicate}
+            onDelete={onDelete}
+            blockIndex={blockIndex}
           />
         </div>
       );
