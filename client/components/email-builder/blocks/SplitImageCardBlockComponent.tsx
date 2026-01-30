@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { SplitImageCardBlock } from "../types";
 import { Upload, Copy, Trash2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,13 @@ export const SplitImageCardBlockComponent: React.FC<
   const [editMode, setEditMode] = useState<string | null>(null);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeHandle, setResizeHandle] = useState<string | null>(null);
+  const [startX, setStartX] = useState(0);
+  const [startY, setStartY] = useState(0);
+  const [startWidth, setStartWidth] = useState(0);
+  const [startHeight, setStartHeight] = useState(0);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // Initialize sections from old format or arrays
   const titles = useMemo(
