@@ -203,33 +203,6 @@ export const TwoColumnCardBlockComponent: React.FC<
                     )}
                   </div>
 
-                  {/* Image Overlay */}
-                  {hoveredCardId === card.id && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-t">
-                      <div className="flex gap-3 items-center">
-                        <label className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all">
-                          <Upload className="w-6 h-6 text-white" />
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleImageUpload(e, card.id)}
-                            className="hidden"
-                          />
-                        </label>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteImage(card.id);
-                          }}
-                          className="flex items-center justify-center cursor-pointer p-2 hover:bg-black hover:bg-opacity-60 rounded transition-all"
-                          title="Delete image"
-                        >
-                          <Trash2 className="w-6 h-6 text-white" />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Resize Handles */}
                   {hoveredCardId === card.id && (
                     <>
