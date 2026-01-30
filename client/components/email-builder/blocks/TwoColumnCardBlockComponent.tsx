@@ -203,43 +203,6 @@ export const TwoColumnCardBlockComponent: React.FC<
                     )}
                   </div>
 
-                  {/* Resize Handles */}
-                  {hoveredCardId === card.id && (
-                    <>
-                      {[
-                        { pos: "nw", cursor: "nw-resize", top: "-4px", left: "-4px" },
-                        { pos: "ne", cursor: "ne-resize", top: "-4px", right: "-4px" },
-                        { pos: "sw", cursor: "sw-resize", bottom: "-4px", left: "-4px" },
-                        { pos: "se", cursor: "se-resize", bottom: "-4px", right: "-4px" },
-                      ].map((handle) => (
-                        <div
-                          key={handle.pos}
-                          onMouseDown={(e) =>
-                            handleResizeStart(e, card.id, handle.pos)
-                          }
-                          style={{
-                            position: "absolute",
-                            width: "12px",
-                            height: "12px",
-                            backgroundColor: "#FF6B35",
-                            border: "2px solid white",
-                            borderRadius: "2px",
-                            cursor: handle.cursor,
-                            zIndex: 40,
-                            ...(handle as any).top ? { top: (handle as any).top } : {},
-                            ...(handle as any).bottom
-                              ? { bottom: (handle as any).bottom }
-                              : {},
-                            ...(handle as any).left ? { left: (handle as any).left } : {},
-                            ...(handle as any).right
-                              ? { right: (handle as any).right }
-                              : {},
-                          }}
-                          title={`Drag to resize (${handle.pos})`}
-                        />
-                      ))}
-                    </>
-                  )}
                 </>
               ) : (
                 <label className="flex items-center justify-center w-full h-40 bg-gray-800 cursor-pointer hover:bg-gray-700 transition-colors rounded">
