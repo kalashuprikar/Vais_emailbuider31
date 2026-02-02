@@ -155,6 +155,10 @@ export const CenteredImageCardBlockComponent: React.FC<
     onBlockUpdate,
   ]);
 
+  const handleCopyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
   const handleAddTitle = () => {
     const newTitles = [...titles, { id: generateId(), content: "" }];
     onBlockUpdate({ ...block, titles: newTitles });
