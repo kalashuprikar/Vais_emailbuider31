@@ -138,6 +138,63 @@ export const TwoColumnCardBlockComponent: React.FC<
     onUpdate({ ...block, cards: updatedCards });
   };
 
+  const FieldToolbar = ({
+    cardId,
+    fieldName,
+    fieldValue,
+    onDuplicate,
+    onDelete,
+  }: {
+    cardId: string;
+    fieldName: "title" | "description";
+    fieldValue: string;
+    onDuplicate: (value: string) => void;
+    onDelete: (cardId: string, fieldName: "title" | "description") => void;
+  }) => {
+    return (
+      <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-2 shadow-sm mt-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 hover:bg-gray-100"
+          title="Add new card"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDuplicateCard(cardId);
+          }}
+        >
+          <Plus className="w-3 h-3 text-gray-700" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 hover:bg-gray-100"
+          title="Copy"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDuplicate(fieldValue);
+          }}
+        >
+          <Copy className="w-3 h-3 text-gray-700" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 w-7 p-0 hover:bg-red-100"
+          title="Delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(cardId, fieldName);
+          }}
+        >
+          <Trash2 className="w-3 h-3 text-red-600" />
+        </Button>
+      </div>
+    );
+  };
+
   const handleResizeStart = (
     e: React.MouseEvent,
     cardId: string,
