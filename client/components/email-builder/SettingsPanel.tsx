@@ -5921,6 +5921,19 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                           src={selectedCard.image}
                           alt={selectedCard.imageAlt || "Card image"}
                           className="w-full h-32 object-cover"
+                          onError={(e) => {
+                            const imgElement = e.target as HTMLImageElement;
+                            imgElement.style.display = "none";
+                            const parent = imgElement.parentElement;
+                            if (parent) {
+                              const errorDiv = document.createElement("div");
+                              errorDiv.className =
+                                "w-full h-32 bg-gray-200 flex items-center justify-center text-center p-2";
+                              errorDiv.innerHTML =
+                                '<p style="font-size: 11px; color: #999;">Image failed to load</p>';
+                              parent.appendChild(errorDiv);
+                            }
+                          }}
                         />
                       </div>
                       <button
