@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Trash2, X } from "lucide-react";
+import { Trash2, X, Copy, Plus } from "lucide-react";
 import { SocialLinksEditor } from "./SocialLinksEditor";
 import { FooterSocialLinksEditor } from "./FooterSocialLinksEditor";
 import { generateId } from "./utils";
@@ -54,6 +54,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   const [videoHeightInput, setVideoHeightInput] = useState<string>(
     String(block?.type === "video" ? (block.height ?? 200) : 200),
   );
+  const [twoCardWidthInput, setTwoCardWidthInput] = useState<string>(
+    String(
+      block?.type === "twoColumnCard" ? ((block as any).width ?? 100) : 100,
+    ),
+  );
 
   // Update input states when block changes
   React.useEffect(() => {
@@ -62,8 +67,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
     } else if (block?.type === "video") {
       setVideoWidthInput(String(block.width ?? 300));
       setVideoHeightInput(String(block.height ?? 200));
+    } else if (block?.type === "twoColumnCard") {
+      setTwoCardWidthInput(String((block as any).width ?? 100));
     }
-  }, [block?.id, block?.type, block?.width, block?.height]);
+  }, [block?.id, block?.type, block?.width]);
 
   // Initialize selectedCardId when block changes to twoColumnCard
   React.useEffect(() => {
@@ -5850,6 +5857,50 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           onBlockUpdate({ ...twoColBlock, cards: updatedCards });
         };
 
+        const handleDuplicateCard = () => {
+          if (!selectedCard) return;
+          const duplicatedCard = {
+            ...JSON.parse(JSON.stringify(selectedCard)),
+            id: generateId(),
+          };
+          const newCards = [...twoColBlock.cards, duplicatedCard];
+          onBlockUpdate({ ...twoColBlock, cards: newCards });
+          setSelectedCardId(duplicatedCard.id);
+        };
+
+        const handleAddCard = () => {
+          const newCard = {
+            id: generateId(),
+            title: "Card Title",
+            description: "Add your card description here",
+            image: "",
+            imageAlt: "",
+            imageWidth: undefined,
+            imageHeight: undefined,
+            imageLink: "",
+            imageLinkType: "url" as const,
+            backgroundColor: "#333333",
+            textColor: "#ffffff",
+            borderRadius: 8,
+            padding: 16,
+            margin: 8,
+          };
+          const newCards = [...twoColBlock.cards, newCard];
+          onBlockUpdate({ ...twoColBlock, cards: newCards });
+          setSelectedCardId(newCard.id);
+        };
+
+        const handleDeleteCard = () => {
+          if (!selectedCard) return;
+          const newCards = twoColBlock.cards.filter(
+            (card: any) => card.id !== selectedCardId,
+          );
+          if (newCards.length > 0) {
+            setSelectedCardId(newCards[0].id);
+          }
+          onBlockUpdate({ ...twoColBlock, cards: newCards });
+        };
+
         return (
           <div className="space-y-5">
             <div>
@@ -5871,6 +5922,142 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   </button>
                 ))}
               </div>
+              <div className="flex gap-2 mb-4">
+                <Button
+                  onClick={handleAddCard}
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 text-xs"
+                >
+                  <Plus className="w-3 h-3 mr-1" />
+                  Add Card
+                </Button>
+                {twoColBlock.cards?.length > 1 && (
+                  <>
+                    <Button
+                      onClick={handleDuplicateCard}
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      title="Copy this card"
+                    >
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                    <Button
+                      onClick={handleDeleteCard}
+                      size="sm"
+                      variant="outline"
+                      className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                      title="Delete this card"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-xs font-bold text-gray-900 mb-3">Layout</h4>
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-xs text-gray-700 mb-1 block">
+                    Card Width
+                  </Label>
+                  <div className="flex gap-2">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      value={twoCardWidthInput}
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        const numericValue = inputValue.replace(/[^\d]/g, "");
+
+                        setTwoCardWidthInput(inputValue);
+
+                        if (numericValue !== "") {
+                          const num = parseInt(numericValue);
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          if (num >= 1 && num <= maxValue) {
+                            onBlockUpdate({
+                              ...twoColBlock,
+                              width: num,
+                            });
+                          }
+                        }
+                      }}
+                      onBlur={(e) => {
+                        const inputValue = e.target.value;
+                        const numericValue = inputValue.replace(/[^\d]/g, "");
+                        if (numericValue === "") {
+                          onBlockUpdate({
+                            ...twoColBlock,
+                            width: 100,
+                          });
+                          setTwoCardWidthInput("100");
+                        } else {
+                          const num = parseInt(numericValue);
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          if (num > maxValue) {
+                            onBlockUpdate({
+                              ...twoColBlock,
+                              width: maxValue,
+                            });
+                            setTwoCardWidthInput(String(maxValue));
+                          } else if (num < 1) {
+                            onBlockUpdate({
+                              ...twoColBlock,
+                              width: 1,
+                            });
+                            setTwoCardWidthInput("1");
+                          }
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "ArrowUp") {
+                          e.preventDefault();
+                          const currentWidth =
+                            parseInt(twoCardWidthInput) || 100;
+                          const maxValue =
+                            twoColBlock.widthUnit === "%" ? 100 : 1000;
+                          const newWidth = Math.min(currentWidth + 1, maxValue);
+                          onBlockUpdate({
+                            ...twoColBlock,
+                            width: newWidth,
+                          });
+                          setTwoCardWidthInput(String(newWidth));
+                        } else if (e.key === "ArrowDown") {
+                          e.preventDefault();
+                          const currentWidth =
+                            parseInt(twoCardWidthInput) || 100;
+                          const newWidth = Math.max(1, currentWidth - 1);
+                          onBlockUpdate({
+                            ...twoColBlock,
+                            width: newWidth,
+                          });
+                          setTwoCardWidthInput(String(newWidth));
+                        }
+                      }}
+                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                    />
+                    <select
+                      value={twoColBlock.widthUnit}
+                      onChange={(e) =>
+                        onBlockUpdate({
+                          ...twoColBlock,
+                          widthUnit: e.target.value as "px" | "%",
+                        })
+                      }
+                      className="px-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange"
+                    >
+                      <option value="%">%</option>
+                      <option value="px">px</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {selectedCard && (
@@ -5882,13 +6069,38 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   >
                     Card Title
                   </Label>
-                  <Input
-                    id="cardTitle"
-                    value={selectedCard.title}
-                    onChange={(e) => handleCardUpdate("title", e.target.value)}
-                    placeholder="Enter card title"
-                    className="focus:ring-valasys-orange focus:ring-2"
-                  />
+                  <div className="flex gap-2">
+                    <Input
+                      id="cardTitle"
+                      value={selectedCard.title}
+                      onChange={(e) =>
+                        handleCardUpdate("title", e.target.value)
+                      }
+                      placeholder="Enter card title"
+                      className="flex-1 focus:ring-valasys-orange focus:ring-2"
+                    />
+                    <Button
+                      onClick={() => {
+                        const newTitle = selectedCard.title + " (copy)";
+                        handleCardUpdate("title", newTitle);
+                      }}
+                      size="sm"
+                      variant="outline"
+                      title="Duplicate title text"
+                      className="text-xs"
+                    >
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                    <Button
+                      onClick={() => handleCardUpdate("title", "")}
+                      size="sm"
+                      variant="outline"
+                      title="Clear title"
+                      className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
                 </div>
 
                 <div>
@@ -5898,16 +6110,41 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   >
                     Card Description
                   </Label>
-                  <textarea
-                    id="cardDescription"
-                    value={selectedCard.description}
-                    onChange={(e) =>
-                      handleCardUpdate("description", e.target.value)
-                    }
-                    placeholder="Enter card description"
-                    rows={4}
-                    className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
-                  />
+                  <div className="flex gap-2">
+                    <textarea
+                      id="cardDescription"
+                      value={selectedCard.description}
+                      onChange={(e) =>
+                        handleCardUpdate("description", e.target.value)
+                      }
+                      placeholder="Enter card description"
+                      rows={4}
+                      className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
+                    />
+                    <div className="flex flex-col gap-2">
+                      <Button
+                        onClick={() => {
+                          const newDesc = selectedCard.description + " (copy)";
+                          handleCardUpdate("description", newDesc);
+                        }}
+                        size="sm"
+                        variant="outline"
+                        title="Duplicate description text"
+                        className="text-xs"
+                      >
+                        <Copy className="w-3 h-3" />
+                      </Button>
+                      <Button
+                        onClick={() => handleCardUpdate("description", "")}
+                        size="sm"
+                        variant="outline"
+                        title="Clear description"
+                        className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
 
                 <div>

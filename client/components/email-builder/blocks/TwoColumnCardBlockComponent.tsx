@@ -289,7 +289,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                   onChange={(e) => setEditingValue(e.target.value)}
                   onBlur={() => handleSaveEdit(card.id, "title")}
                   onKeyPress={(e) => handleKeyPress(e, card.id, "title")}
-                  className="w-full font-bold text-base mb-2 m-0 p-1 border border-valasys-orange rounded"
+                  className="w-full font-bold text-base mb-2 m-0 p-1 border-2 border-valasys-orange rounded"
                   style={{
                     color: card.textColor,
                     backgroundColor: "transparent",
@@ -297,7 +297,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                 />
               ) : (
                 <h3
-                  className="font-bold text-base mb-2 m-0 cursor-pointer hover:opacity-70"
+                  className="font-bold text-base mb-2 m-0 cursor-pointer px-2 py-1 rounded transition-all hover:border-2 hover:border-dotted hover:border-current"
                   onDoubleClick={() =>
                     handleStartEditingField(card.id, "title")
                   }
@@ -318,7 +318,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                       setEditingValue("");
                     }
                   }}
-                  className="w-full text-xs leading-snug m-0 p-1 border border-valasys-orange rounded"
+                  className="w-full text-xs leading-snug m-0 p-1 border-2 border-valasys-orange rounded"
                   style={{
                     color: card.textColor,
                     backgroundColor: "transparent",
@@ -327,7 +327,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                 />
               ) : (
                 <p
-                  className="text-xs leading-snug m-0 cursor-pointer hover:opacity-70"
+                  className="text-xs leading-snug m-0 cursor-pointer"
                   onDoubleClick={() =>
                     handleStartEditingField(card.id, "description")
                   }
