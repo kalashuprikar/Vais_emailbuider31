@@ -306,18 +306,21 @@ export const SplitImageCardBlockComponent: React.FC<
     const newTitles = titles.filter((t) => t.id !== id);
     onBlockUpdate({ ...block, titles: newTitles });
     setEditMode(null);
+    setFocusedSection(null);
   };
 
   const handleDeleteDescription = (id: string) => {
     const newDescriptions = descriptions.filter((d) => d.id !== id);
     onBlockUpdate({ ...block, descriptions: newDescriptions });
     setEditMode(null);
+    setFocusedSection(null);
   };
 
   const handleDeleteButton = (id: string) => {
     const newButtons = buttons.filter((b) => b.id !== id);
     onBlockUpdate({ ...block, buttons: newButtons });
     setEditMode(null);
+    setFocusedSection(null);
   };
 
   const isImageLeft = block.imagePosition === "left";
