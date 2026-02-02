@@ -650,18 +650,48 @@ export const CenteredImageCardBlockComponent: React.FC<
                       }
                       onMouseLeave={() => setHoveredSection(null)}
                     >
-                      <p
-                        onClick={() => setEditMode(`description-${desc.id}`)}
-                        className="text-sm text-gray-600 cursor-pointer transition-all p-3 rounded whitespace-pre-wrap break-words"
-                        style={{
-                          border:
-                            hoveredSection === `description-${desc.id}`
-                              ? "2px dotted rgb(255, 106, 0)"
-                              : "none",
-                        }}
-                      >
-                        {desc.content}
-                      </p>
+                      <div className="flex items-start justify-between gap-2 group">
+                        <p
+                          onClick={() => setEditMode(`description-${desc.id}`)}
+                          className="flex-1 text-sm text-gray-600 cursor-pointer transition-all p-3 rounded whitespace-pre-wrap break-words"
+                          style={{
+                            border:
+                              hoveredSection === `description-${desc.id}`
+                                ? "2px dotted rgb(255, 106, 0)"
+                                : "none",
+                          }}
+                        >
+                          {desc.content}
+                        </p>
+                        {hoveredSection === `description-${desc.id}` && (
+                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity mt-3 flex-shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-gray-100"
+                              title="Copy"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDuplicateDescription(desc.id);
+                              }}
+                            >
+                              <Copy className="w-4 h-4 text-gray-700" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 w-7 p-0 hover:bg-red-100"
+                              title="Delete"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteDescription(desc.id);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4 text-red-600" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
