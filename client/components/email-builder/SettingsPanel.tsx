@@ -6046,7 +6046,60 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
                 <div>
                   <h4 className="text-xs font-bold text-gray-900 mb-3">
-                    Styling
+                    Image Styling
+                  </h4>
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-2 block">
+                        Image Width
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="number"
+                          min="50"
+                          value={selectedCard.imageWidth || ""}
+                          onChange={(e) =>
+                            handleCardUpdate(
+                              "imageWidth",
+                              e.target.value ? parseInt(e.target.value) : undefined,
+                            )
+                          }
+                          placeholder="Auto"
+                          className="flex-1 text-xs focus:ring-valasys-orange focus:ring-2"
+                        />
+                        <span className="px-2 py-1 text-sm text-gray-600">px</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Leave empty for auto</p>
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-2 block">
+                        Image Height
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type="number"
+                          min="50"
+                          value={selectedCard.imageHeight || ""}
+                          onChange={(e) =>
+                            handleCardUpdate(
+                              "imageHeight",
+                              e.target.value ? parseInt(e.target.value) : undefined,
+                            )
+                          }
+                          placeholder="Auto"
+                          className="flex-1 text-xs focus:ring-valasys-orange focus:ring-2"
+                        />
+                        <span className="px-2 py-1 text-sm text-gray-600">px</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">Leave empty for auto</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-xs font-bold text-gray-900 mb-3">
+                    Card Styling
                   </h4>
                   <div className="space-y-3">
                     <div>
