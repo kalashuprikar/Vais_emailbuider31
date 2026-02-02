@@ -203,7 +203,7 @@ export default function QuickAccess({
           {/* Right: Today's Activity */}
           <Card
             data-tour="abm-today-activity"
-            className="col-span-1 lg:col-span-1 border border-gray-100"
+            className="col-span-1 lg:col-span-1 border border-gray-100 content-section-hover"
           >
             <CardHeader className="py-3">
               <CardTitle className="text-sm font-medium text-gray-800">
