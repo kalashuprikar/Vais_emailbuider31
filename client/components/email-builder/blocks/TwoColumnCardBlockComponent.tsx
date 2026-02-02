@@ -49,10 +49,6 @@ export const TwoColumnCardBlockComponent: React.FC<
   TwoColumnCardBlockComponentProps
 > = ({ block, isSelected, onUpdate }) => {
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [editingField, setEditingField] = useState<string | null>(null);
-  const [editingValue, setEditingValue] = useState<string>("");
-  const [hoveredField, setHoveredField] = useState<string | null>(null);
   const [resizingCardId, setResizingCardId] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
