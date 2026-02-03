@@ -221,10 +221,10 @@ export const TwoColumnCardBlockComponent: React.FC<
           variant="ghost"
           size="sm"
           className="h-7 w-7 p-0 hover:bg-gray-100"
-          title="Copy"
+          title="Duplicate card"
           onClick={(e) => {
             e.stopPropagation();
-            onCopy(fieldValue, fieldName);
+            handleDuplicateCard(cardId);
           }}
         >
           <Copy className="w-3 h-3 text-gray-700" />
