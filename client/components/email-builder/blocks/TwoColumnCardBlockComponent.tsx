@@ -616,7 +616,7 @@ export const TwoColumnCardBlockComponent: React.FC<
                       cardId={card.id}
                       fieldName="description"
                       fieldValue={card.description}
-                      onCopy={(value, fieldName) => handleCopyText(value)}
+                      onDuplicate={handleDuplicateDescription}
                       onDelete={handleDeleteField}
                     />
                   )}
