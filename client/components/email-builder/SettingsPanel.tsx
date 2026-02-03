@@ -5875,10 +5875,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         };
 
         const handleAddCard = () => {
+          const cardId = generateId();
           const newCard = {
-            id: generateId(),
-            title: "Card Title",
-            description: "Add your card description here",
+            id: cardId,
+            titles: [{ id: generateId(), content: "Card Title" }],
+            descriptions: [{ id: generateId(), content: "Add your card description here" }],
             image: "",
             imageAlt: "",
             imageWidth: undefined,
